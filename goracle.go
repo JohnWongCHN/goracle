@@ -20,66 +20,100 @@
 package main
 
 import (
-	"fmt"
-	"strings"
+	"context"
+	"net/http"
+	"net/url"
+	"time"
 
-	"git.zabbix.com/ap/plugin-support/conf"
 	"git.zabbix.com/ap/plugin-support/plugin"
+	"git.zabbix.com/ap/plugin-support/uri"
+	"git.zabbix.com/ap/plugin-support/zbxerr"
+	"github.com/omeid/go-yarn"
 )
 
-type Options struct {
-	plugin.SystemOptions `conf:"optional,name=System"`
-	Interval             int
-}
+const (
+	pluginName = "Goracle"
+	hkInterval = 10
+	sqlExt     = ".sql"
+)
 
-// Plugin -
+// Plugin inherits plugin.Base and store plugin-specific data.
 type Plugin struct {
 	plugin.Base
-	// counter int
-	options Options
+	connMgr *ConnManager
+	options PluginOptions
 }
 
 var impl Plugin
 
-func (p *Plugin) Export(key string, params []string, ctx plugin.ContextProvider) (result interface{}, err error) {
-	p.Debugf("export %s%v, with interval: %d", key, params, p.options.Interval)
+// Export implements the Exporter interface.
+func (p *Plugin) Export(key string, rawParams []string, _ plugin.ContextProvider) (result interface{}, err error) {
+	p.Debugf("export %s%v, with interval: %d", key, rawParams, p.options.SystemOptions)
 
-	if len(params) == 0 {
-		return "debug full test response, without parameters", nil
+	params, extraParams, err := metrics[key].EvalParams(rawParams, p.options.Sessions)
+	if err != nil {
+		return nil, err
 	}
 
-	var out string
+	service := url.QueryEscape(params["Service"])
 
-	for _, p := range params {
-		out += p + " "
+	uri, err := uri.NewWithCreds(params["URI"]+"?service="+service, params["User"], params["Password"], uriDefaults)
+	if err != nil {
+		return nil, err
 	}
 
-	out = strings.TrimSpace(out)
-
-	return fmt.Sprintf("debug full test response, with parameters: %s", out), nil
-}
-
-func (p *Plugin) Configure(global *plugin.GlobalOptions, private interface{}) {
-	if err := conf.Unmarshal(private, &p.options); err != nil {
-		p.Warningf("cannot unmarshal configuration options: %s", err)
+	handleMetric := getHandlerFunc(key)
+	if handleMetric == nil {
+		return nil, zbxerr.ErrorUnsupportedMetric
 	}
-	p.Debugf("configure: interval=%d", p.options.Interval)
+
+	conn, err := p.connMgr.GetConnection(*uri)
+	if err != nil {
+		// Special logic of processing connection errors should be used if oracle.ping is requested
+		// because it must return pingFailed if any error occurred.
+		if key == keyPing {
+			return pingFailed, nil
+		}
+
+		p.Errf(err.Error())
+
+		return nil, err
+	}
+
+	ctx, cancel := context.WithTimeout(conn.ctx, conn.callTimeout)
+	defer cancel()
+
+	result, err = handleMetric(ctx, conn, params, extraParams...)
+
+	if err != nil {
+		p.Errf(err.Error())
+	}
+
+	return result, err
 }
 
-func (p *Plugin) Validate(private interface{}) (err error) {
-	p.Debugf("executing Validate")
-	err = conf.Unmarshal(private, &p.options)
-	return
-}
-
+// Start implements the Runner interface and performs initialization when plugin is activated.
 func (p *Plugin) Start() {
 	p.Debugf("executing Start")
+	queryStorage, err := yarn.New(http.Dir(p.options.CustomQueriesPath), "*"+sqlExt)
+	if err != nil {
+		p.Errf(err.Error())
+		// create empty storage if error occurred
+		queryStorage = yarn.NewFromMap(map[string]string{})
+	}
+
+	p.connMgr = NewConnManager(
+		time.Duration(p.options.KeepAlive)*time.Second,
+		time.Duration(p.options.ConnectTimeout)*time.Second,
+		time.Duration(p.options.CallTimeout)*time.Second,
+		hkInterval*time.Second,
+		queryStorage,
+	)
 }
 
+// Stop implements the Runner interface and frees resources when plugin is deactivated.
 func (p *Plugin) Stop() {
 	p.Debugf("executing Stop")
-}
-
-func init() {
-	plugin.RegisterMetrics(&impl, "DebugFull", "debug.external.full", "Returns test value.")
+	p.connMgr.Destroy()
+	p.connMgr = nil
 }
