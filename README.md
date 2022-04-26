@@ -1,4 +1,4 @@
-# Go based external plugin for Oracle database
+# Go based Zabbix Agent 2 external plugin for Oracle database
 
 Provides native Zabbix solution for monitoring Oracle Database (multi-model database management system).
 It can monitor several Oracle instances simultaneously, remote or local to the Zabbix Agent.
