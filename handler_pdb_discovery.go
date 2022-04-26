@@ -1,56 +1,88 @@
 /*
-** Zabbix
-** Copyright (C) 2001-2022 Zabbix SIA
-**
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 2 of the License, or
-** (at your option) any later version.
-**
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-** GNU General Public License for more details.
-**
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-**/
+MIT License
+
+Copyright (c) [2022] [John Wong<john-wong@outlook.com>]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 
 package main
 
 import (
 	"context"
+	"database/sql"
+	"encoding/json"
+	"strings"
 
 	"git.zabbix.com/ap/plugin-support/zbxerr"
 )
 
 func pdbDiscoveryHandler(ctx context.Context, conn OraClient, params map[string]string,
 	_ ...string) (interface{}, error) {
-	var lld string
 
-	row, err := conn.QueryRow(ctx, `
-		SELECT
-			JSON_ARRAYAGG(
-				JSON_OBJECT(
-					'{#DBNAME}' VALUE NAME
-				)
-			) LLD
-		FROM
-			V$PDBS
-	`)
+	_sql := `
+SELECT
+	NAME as "{#DBNAME}"
+FROM
+	V$PDBS
+	`
+
+	rows, err := conn.Query(ctx, _sql)
+	if err != nil {
+		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
+	}
+	defer rows.Close()
+
+	// JSON marshaling
+	var data []string
+
+	columns, err := rows.Columns()
 	if err != nil {
 		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 
-	err = row.Scan(&lld)
-	if err != nil {
-		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
+	values := make([]interface{}, len(columns))
+	valuePointers := make([]interface{}, len(values))
+
+	for i := range values {
+		valuePointers[i] = &values[i]
 	}
 
-	if lld == "" {
-		lld = "[]"
+	results := make(map[string]interface{})
+
+	for rows.Next() {
+		err = rows.Scan(valuePointers...)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return nil, zbxerr.ErrorEmptyResult.Wrap(err)
+			}
+
+			return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
+		}
+
+		for i, value := range values {
+			results[columns[i]] = value
+		}
+
+		jsonRes, _ := json.Marshal(results)
+		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
 
-	return lld, nil
+	return "[" + strings.Join(data, ",") + "]", nil
 }

@@ -1,26 +1,34 @@
 /*
-** Zabbix
-** Copyright (C) 2001-2022 Zabbix SIA
-**
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 2 of the License, or
-** (at your option) any later version.
-**
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-** GNU General Public License for more details.
-**
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-**/
+MIT License
+
+Copyright (c) [2022] [John Wong<john-wong@outlook.com>]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 
 package main
 
 import (
 	"context"
+	"database/sql"
+	"encoding/json"
+	"fmt"
 	"strings"
 
 	"git.zabbix.com/ap/plugin-support/zbxerr"
@@ -28,141 +36,122 @@ import (
 
 func tablespacesHandler(ctx context.Context, conn OraClient, params map[string]string,
 	_ ...string) (interface{}, error) {
-	var tablespaces string
 
-	row, err := conn.QueryRow(ctx, `
-		SELECT
-			JSON_ARRAYAGG(
-				JSON_OBJECT(TABLESPACE_NAME VALUE
-					JSON_OBJECT(
-						'contents'	    VALUE CONTENTS,
-						'file_bytes'    VALUE FILE_BYTES,
-						'max_bytes'     VALUE MAX_BYTES,
-						'free_bytes'    VALUE FREE_BYTES,
-						'used_bytes'    VALUE USED_BYTES,
-						'used_pct_max'  VALUE USED_PCT_MAX,
-						'used_file_pct' VALUE USED_FILE_PCT,
-						'status'        VALUE STATUS
-					)
-				) RETURNING CLOB
-			)
-		FROM
+	_sql := `
+SELECT  s.tablespace                                 as "tablespace_name",
+		t.contents                                   as "contents",
+		s.allocated_bytes                            as "file_bytes",
+		s.max_bytes                                  as "max_bytes",
+		s.free_bytes                                 as "free_bytes",
+		s.used_bytes                                 as "used_bytes",
+		s.used_pct_max                               as "used_pct_max",
+		s.used_pct_allocated                         as "used_file_pct",
+		s.free_pct_allocated                         as "free_file_pct",
+		decode(t.status, 'ONLINE', 1, 'OFFLINE', 2,
+				'READ ONLY', 3, 0)                   as "status"
+FROM (
+		SELECT  a.tablespace_name AS                                                tablespace,
+				a.bytes_alloc                                                       allocated_bytes,
+				nvl(b.bytes_free, 0)                                                free_bytes,
+				a.bytes_alloc - nvl(b.bytes_free, 0)                                used_bytes,
+				round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100, 2)              free_pct_allocated,
+				100 - round((nvl(b.bytes_free, 0) / a.bytes_alloc) * 100, 2)        used_pct_allocated,
+				maxbytes                                                            max_bytes,
+				round(((a.bytes_alloc - nvl(b.bytes_free, 0)) / maxbytes) * 100, 2) used_pct_max
+		FROM (
+				SELECT f.tablespace_name,
+						SUM(f.bytes)                                                    bytes_alloc,
+						SUM(decode(f.autoextensible, 'YES', f.maxbytes, 'NO', f.bytes)) maxbytes
+				FROM dba_data_files f
+				GROUP BY tablespace_name
+			) a,
 			(
-			SELECT
-				df.TABLESPACE_NAME AS TABLESPACE_NAME,
-				df.CONTENTS AS CONTENTS,
-				NVL(SUM(df.BYTES), 0) AS FILE_BYTES,
-				NVL(SUM(df.MAX_BYTES), 0) AS MAX_BYTES,
-				NVL(SUM(f.FREE), 0) AS FREE_BYTES,
-				SUM(df.BYTES)-SUM(f.FREE) AS USED_BYTES,
-				ROUND(DECODE(SUM(df.MAX_BYTES), 0, 0, (SUM(df.BYTES) / SUM(df.MAX_BYTES) * 100)), 2) AS USED_PCT_MAX,
-				ROUND(DECODE(SUM(df.BYTES), 0, 0, (SUM(df.BYTES)-SUM(f.FREE)) / SUM(df.BYTES)* 100), 2) AS USED_FILE_PCT,
-				DECODE(df.STATUS, 'ONLINE', 1, 'OFFLINE', 2, 'READ ONLY', 3, 0) AS STATUS
-			FROM
-				(
-				SELECT
-					ddf.FILE_ID,
-					dt.CONTENTS,
-					dt.STATUS,
-					ddf.FILE_NAME,
-					ddf.TABLESPACE_NAME,
-					TRUNC(ddf.BYTES) AS BYTES,
-					TRUNC(GREATEST(ddf.BYTES, ddf.MAXBYTES)) AS MAX_BYTES
-				FROM
-					DBA_DATA_FILES ddf,
-					DBA_TABLESPACES dt
-				WHERE
-					ddf.TABLESPACE_NAME = dt.TABLESPACE_NAME
-				) df,
-				(
-				SELECT
-					TRUNC(SUM(BYTES)) AS FREE,
-					FILE_ID
-				FROM
-					DBA_FREE_SPACE
-				GROUP BY
-					FILE_ID
-				) f
-			WHERE
-				df.FILE_ID = f.FILE_ID (+)
-			GROUP BY
-				df.TABLESPACE_NAME, df.CONTENTS, df.STATUS
+				SELECT f.tablespace_name,
+						SUM(f.bytes) bytes_free
+				FROM dba_free_space f
+				GROUP BY tablespace_name
+			) b
+		WHERE a.tablespace_name = b.tablespace_name (+)
 		UNION ALL
-			SELECT
-				Y.NAME AS TABLESPACE_NAME,
-				Y.CONTENTS AS CONTENTS,
-				NVL(SUM(Y.BYTES), 0) AS FILE_BYTES,
-				NVL(SUM(Y.MAX_BYTES), 0) AS MAX_BYTES,
-				NVL(MAX(NVL(Y.FREE_BYTES, 0)), 0) AS FREE,
-				SUM(Y.BYTES)-MAX(Y.FREE_BYTES) AS USED_BYTES,
-				ROUND(DECODE(SUM(Y.MAX_BYTES), 0, 0, (SUM(Y.BYTES) / SUM(Y.MAX_BYTES) * 100)), 2) AS USED_PCT_MAX,
-				ROUND(DECODE(SUM(Y.BYTES), 0, 0, (SUM(Y.BYTES)-MAX(Y.FREE_BYTES)) / SUM(Y.BYTES)* 100), 2) AS USED_FILE_PCT,
-				DECODE(Y.TBS_STATUS, 'ONLINE', 1, 'OFFLINE', 2, 'READ ONLY', 3, 0) AS STATUS
-			FROM
-				(
-				SELECT
-					dtf.TABLESPACE_NAME AS NAME,
-					dt.CONTENTS,
-					dt.STATUS AS TBS_STATUS,
-					dtf.STATUS AS STATUS,
-					dtf.BYTES AS BYTES,
-					(
-					SELECT
-						((f.TOTAL_BLOCKS - s.TOT_USED_BLOCKS) * vp.VALUE)
-					FROM
-						(
-						SELECT
-							TABLESPACE_NAME, SUM(USED_BLOCKS) TOT_USED_BLOCKS
-						FROM
-							GV$SORT_SEGMENT
-						WHERE
-							TABLESPACE_NAME != 'DUMMY'
-						GROUP BY
-							TABLESPACE_NAME) s, (
-						SELECT
-							TABLESPACE_NAME, SUM(BLOCKS) TOTAL_BLOCKS
-						FROM
-							DBA_TEMP_FILES
-						WHERE
-							TABLESPACE_NAME != 'DUMMY'
-						GROUP BY
-							TABLESPACE_NAME) f, (
-						SELECT
-							VALUE
-						FROM
-							V$PARAMETER
-						WHERE
-							NAME = 'db_block_size') vp
-					WHERE
-						f.TABLESPACE_NAME = s.TABLESPACE_NAME
-						AND f.TABLESPACE_NAME = dtf.TABLESPACE_NAME
-					) AS FREE_BYTES,
-					CASE
-						WHEN dtf.MAXBYTES = 0 THEN dtf.BYTES
-						ELSE dtf.MAXBYTES
-					END AS MAX_BYTES
-				FROM
-					sys.DBA_TEMP_FILES dtf,
-					sys.DBA_TABLESPACES dt
-				WHERE
-					dtf.TABLESPACE_NAME = dt.TABLESPACE_NAME ) Y
-			GROUP BY
-				Y.NAME, Y.CONTENTS, Y.TBS_STATUS
-			)
-	`)
+		SELECT  h.tablespace_name AS                                      tablespace,
+				SUM(h.bytes_free + h.bytes_used)                          allocated_bytes,
+				SUM((h.bytes_free + h.bytes_used) - nvl(p.bytes_used, 0)) free_bytes,
+				SUM(nvl(p.bytes_used, 0))                                 used_bytes,
+				round((SUM((h.bytes_free + h.bytes_used) - nvl(p.bytes_used, 0)) / SUM(h.bytes_used + h.bytes_free)) *
+					100, 2)                                               free_pct_allocated,
+				100 - round((SUM((h.bytes_free + h.bytes_used) - nvl(p.bytes_used, 0)) /
+							SUM(h.bytes_used + h.bytes_free)) * 100, 2)  used_pct_allocated,
+				SUM(f.maxbytes)                                           max_bytes,
+				round(((SUM(nvl(p.bytes_used, 0))) /
+					decode(SUM(f.maxbytes), 0, SUM(h.bytes_free + h.bytes_used), SUM(f.maxbytes))) * 100,
+					2)                                                    used_pct_max
+		FROM (
+				SELECT DISTINCT *
+				FROM sys.gv_$temp_space_header
+			) h,
+			(
+				SELECT DISTINCT *
+				FROM sys.gv_$temp_extent_pool
+			) p,
+			dba_temp_files f
+		WHERE p.file_id (+) = h.file_id
+		AND p.tablespace_name (+) = h.tablespace_name
+		AND f.file_id = h.file_id
+		AND f.tablespace_name = h.tablespace_name
+		GROUP BY h.tablespace_name
+	) s
+		LEFT JOIN dba_tablespaces t ON s.tablespace = t.tablespace_name
+	`
+
+	rows, err := conn.Query(ctx, _sql)
+	if err != nil {
+		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
+	}
+	defer rows.Close()
+
+	// JSON marshaling
+	var data []string
+
+	columns, err := rows.Columns()
 	if err != nil {
 		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 
-	err = row.Scan(&tablespaces)
-	if err != nil {
-		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
+	values := make([]interface{}, len(columns))
+	valuePointers := make([]interface{}, len(values))
+
+	for i := range values {
+		valuePointers[i] = &values[i]
 	}
 
-	// Add leading zeros for floats: ".03" -> "0.03".
-	// Oracle JSON functions are not RFC 4627 compliant.
-	// There should be a better way to do that, but I haven't come up with it ¯\_(ツ)_/¯
-	tablespaces = strings.ReplaceAll(tablespaces, "\":.", "\":0.")
+	results := make(map[string]interface{})
 
-	return tablespaces, nil
+	for rows.Next() {
+		err = rows.Scan(valuePointers...)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return nil, zbxerr.ErrorEmptyResult.Wrap(err)
+			}
+
+			return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
+		}
+
+		for i, value := range values {
+			// skip dest_name column
+			if i == 0 {
+				continue
+			}
+			results[columns[i]] = value
+		}
+
+		// generate proper map
+		_data := map[string]interface{}{
+			fmt.Sprintf("%v", values[0]): results}
+
+		// jsonRes, _ := json.Marshal(results)
+		jsonRes, _ := json.Marshal(_data)
+		data = append(data, strings.TrimSpace(string(jsonRes)))
+	}
+
+	return "[" + strings.Join(data, ",") + "]", nil
 }

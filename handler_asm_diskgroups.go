@@ -1,64 +1,101 @@
 /*
-** Zabbix
-** Copyright (C) 2001-2022 Zabbix SIA
-**
-** This program is free software; you can redistribute it and/or modify
-** it under the terms of the GNU General Public License as published by
-** the Free Software Foundation; either version 2 of the License, or
-** (at your option) any later version.
-**
-** This program is distributed in the hope that it will be useful,
-** but WITHOUT ANY WARRANTY; without even the implied warranty of
-** MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-** GNU General Public License for more details.
-**
-** You should have received a copy of the GNU General Public License
-** along with this program; if not, write to the Free Software
-** Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
-**/
+MIT License
+
+Copyright (c) [2022] [John Wong<john-wong@outlook.com>]
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+*/
 
 package main
 
 import (
 	"context"
+	"database/sql"
+	"encoding/json"
+	"fmt"
+	"strings"
 
 	"git.zabbix.com/ap/plugin-support/zbxerr"
 )
 
 func asmDiskGroupsHandler(ctx context.Context, conn OraClient, params map[string]string,
 	_ ...string) (interface{}, error) {
-	var diskGroups string
 
-	row, err := conn.QueryRow(ctx, `
-		SELECT
-			JSON_ARRAYAGG(
-				JSON_OBJECT(NAME VALUE
-					JSON_OBJECT(
-						'total_bytes' VALUE 
-							ROUND(TOTAL_MB / DECODE(TYPE, 'EXTERN', 1, 'NORMAL', 2, 'HIGH', 3) * 1024 * 1024),
-						'free_bytes'  VALUE 
-							ROUND(USABLE_FILE_MB * 1024 * 1024),
-						'used_pct'    VALUE 
-							ROUND(100 - (USABLE_FILE_MB / (TOTAL_MB / 
-							DECODE(TYPE, 'EXTERN', 1, 'NORMAL', 2, 'HIGH', 3))) * 100, 2)
-				    )
-				) RETURNING CLOB 
-			)
-         FROM 
-         	V$ASM_DISKGROUP
-	`)
+	_sql := `
+SELECT
+	NAME as "name",
+	ROUND(TOTAL_MB / DECODE(TYPE, 'EXTERN', 1, 'NORMAL', 2, 'HIGH', 3) * 1024 * 1024) as "total_bytes",
+	ROUND(USABLE_FILE_MB * 1024 * 1024) as "free_bytes",
+	ROUND(100 - (USABLE_FILE_MB / (TOTAL_MB / DECODE(TYPE, 'EXTERN', 1, 'NORMAL', 2, 'HIGH', 3))) * 100, 2) as "used_pct"
+FROM
+	V$ASM_DISKGROUP
+	`
+
+	rows, err := conn.Query(ctx, _sql)
+	if err != nil {
+		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
+	}
+	defer rows.Close()
+
+	// JSON marshaling
+	var data []string
+
+	columns, err := rows.Columns()
 	if err != nil {
 		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 
-	err = row.Scan(&diskGroups)
-	if err != nil {
-		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
+	values := make([]interface{}, len(columns))
+	valuePointers := make([]interface{}, len(values))
+
+	for i := range values {
+		valuePointers[i] = &values[i]
 	}
 
-	if diskGroups == "" {
-		diskGroups = "[]"
+	results := make(map[string]interface{})
+
+	for rows.Next() {
+		err = rows.Scan(valuePointers...)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				return nil, zbxerr.ErrorEmptyResult.Wrap(err)
+			}
+
+			return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
+		}
+
+		for i, value := range values {
+			// skip dest_name column
+			if i == 0 {
+				continue
+			}
+			results[columns[i]] = value
+		}
+
+		// generate proper map
+		_data := map[string]interface{}{
+			fmt.Sprintf("%v", values[0]): results}
+
+		// jsonRes, _ := json.Marshal(results)
+		jsonRes, _ := json.Marshal(_data)
+		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
 
-	return diskGroups, nil
+	return "[" + strings.Join(data, ",") + "]", nil
 }
