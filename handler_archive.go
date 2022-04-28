@@ -99,5 +99,8 @@ WHERE
 		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
 
+	// return format
+	// [{"LOG_ARCHIVE_DEST_1":{"status":3,"log_sequence":17674,"error":" "}}]
+
 	return "[" + strings.Join(data, ",") + "]", nil
 }

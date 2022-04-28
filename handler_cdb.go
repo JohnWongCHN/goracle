@@ -112,5 +112,8 @@ FROM
 		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
 
+	// return format
+	// [{"ORA19C":{"open_mode":3,"role":4,"force_logging":0,"log_mode":0}}]
+
 	return "[" + strings.Join(data, ",") + "]", nil
 }

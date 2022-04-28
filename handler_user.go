@@ -60,5 +60,8 @@ WHERE
 
 	jsonRes, _ := json.Marshal(map[string]int{"exp_passwd_days_before": res})
 
+	// return format
+	// {"exp_passwd_days_before":999}
+
 	return string(jsonRes), nil
 }

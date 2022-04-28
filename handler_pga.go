@@ -79,5 +79,8 @@ FROM
 	}
 	jsonRes, _ := json.Marshal(results)
 
+	// return format
+	// {"aggregate PGA target parameter":524288000,"aggregate PGA auto target":32768000,"global memory bound":104857600,"total PGA inuse":1148429312,"total PGA allocated":1254737920,"maximum PGA allocated":2187156480,"total freeable PGA memory":47972352,"MGA allocated (under PGA)":0,"maximum MGA allocated":0,"process count":85,"max processes count":150,"PGA memory freed back to OS":1563913420800,"total PGA used for auto workareas":0,"maximum PGA used for auto workareas":133223424,"total PGA used for manual workareas":0,"maximum PGA used for manual workareas":24006656,"over allocation count":5656092,"bytes processed":3337017116672,"extra bytes read/written":278719201280,"cache hit percentage":92.29,"recompute count (total)":6436686}
+
 	return strings.TrimSpace(string(jsonRes)), nil
 }

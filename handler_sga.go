@@ -124,5 +124,8 @@ GROUP BY
 	}
 	jsonRes, _ := json.Marshal(results)
 
+	// return format
+	// {"large_pool":16777216,"buffer_cache":671088640,"java_pool":50331648,"log_buffer":7876608,"fixed_sga":8896976,"shared_pool":589427496}
+
 	return strings.TrimSpace(string(jsonRes)), nil
 }

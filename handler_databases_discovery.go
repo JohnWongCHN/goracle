@@ -84,5 +84,8 @@ FROM
 		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
 
+	// return format
+	// [{"{#DBNAME}":"ECOLOGY","{#TYPE}":"No-CDB"}]
+
 	return "[" + strings.Join(data, ",") + "]", nil
 }

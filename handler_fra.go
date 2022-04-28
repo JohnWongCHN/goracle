@@ -123,5 +123,8 @@ GROUP BY
 	}
 	jsonRes, _ := json.Marshal(results)
 
+	// return format
+	// {"space_used":37994496,"number_of_files":3,"restore_point":0,"space_reclaimable":25329664,"space_limit":32212254720,"usable_pct":99.96068318684895833333333333333333333333}
+
 	return strings.TrimSpace(string(jsonRes)), nil
 }

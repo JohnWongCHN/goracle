@@ -85,5 +85,8 @@ FROM
 		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
 
+	// return format
+	// [{"{#TABLESPACE}":"SYSTEM","{#CONTENTS}":"PERMANENT"},{"{#TABLESPACE}":"SYSAUX","{#CONTENTS}":"PERMANENT"},{"{#TABLESPACE}":"UNDOTBS1","{#CONTENTS}":"UNDO"},{"{#TABLESPACE}":"TEMP","{#CONTENTS}":"TEMPORARY"},{"{#TABLESPACE}":"USERS","{#CONTENTS}":"PERMANENT"},{"{#TABLESPACE}":"INDX","{#CONTENTS}":"PERMANENT"},{"{#TABLESPACE}":"JZX_COMMT","{#CONTENTS}":"PERMANENT"}]
+
 	return "[" + strings.Join(data, ",") + "]", nil
 }

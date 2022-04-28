@@ -153,5 +153,8 @@ FROM (
 		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
 
+	// return format
+	// [{"USERS":{"contents":"PERMANENT","file_bytes":85854519296,"max_bytes":103081295872,"free_bytes":52018020352,"used_bytes":33836498944,"used_pct_max":83.29,"used_file_pct":39.41,"status":1}},{"UNDOTBS1":{"contents":"UNDO","file_bytes":959447040,"max_bytes":34359721984,"free_bytes":937099264,"used_bytes":22347776,"used_pct_max":2.79,"used_file_pct":2.33,"status":1}},{"SYSTEM":{"contents":"PERMANENT","file_bytes":2147483648,"max_bytes":34359721984,"free_bytes":991494144,"used_bytes":1155989504,"used_pct_max":6.25,"used_file_pct":53.83,"status":1}},{"SYSAUX":{"contents":"PERMANENT","file_bytes":4041211904,"max_bytes":34359721984,"free_bytes":231735296,"used_bytes":3809476608,"used_pct_max":11.76,"used_file_pct":94.27,"status":1}},{"INDX":{"contents":"PERMANENT","file_bytes":30482104320,"max_bytes":51547979776,"free_bytes":4262002688,"used_bytes":26220101632,"used_pct_max":59.13,"used_file_pct":86.02,"status":1}},{"JZX_COMMT":{"contents":"PERMANENT","file_bytes":4297064448,"max_bytes":4297064448,"free_bytes":4296015872,"used_bytes":1048576,"used_pct_max":100,"used_file_pct":0.02,"status":1}},{"TEMP":{"contents":"TEMPORARY","file_bytes":3276800000,"max_bytes":34359721984,"free_bytes":3271557120,"used_bytes":5242880,"used_pct_max":9.54,"used_file_pct":0.16,"status":1}}]
+
 	return "[" + strings.Join(data, ",") + "]", nil
 }

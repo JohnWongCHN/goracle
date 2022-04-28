@@ -151,5 +151,8 @@ FROM
 	}
 	jsonRes, _ := json.Marshal(results)
 
+	// return format
+	// {"active_background":49,"active_user":1,"concurrency_rate":0,"inactive_user":24,"lock_rate":0,"long_time_locked":0,"total":74}
+
 	return strings.TrimSpace(string(jsonRes)), nil
 }

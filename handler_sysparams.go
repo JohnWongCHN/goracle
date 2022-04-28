@@ -81,5 +81,8 @@ WHERE
 	}
 	jsonRes, _ := json.Marshal(results)
 
+	// return format
+	// {"processes":"300","sessions":"472","db_files":"200"}
+
 	return strings.TrimSpace(string(jsonRes)), nil
 }

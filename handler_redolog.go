@@ -85,5 +85,8 @@ where
 		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
 
+	// return format
+	// {"available":2}
+
 	return "[" + strings.Join(data, ",") + "]", nil
 }

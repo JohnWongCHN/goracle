@@ -89,5 +89,8 @@ FROM
 		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
 
+	// return format
+	// {"instance":"ora19c","hostname":"oracle19C","version":"19.0.0.0.0-EE","uptime":19326921,"status":3,"archiver":1,"role":1}
+
 	return "[" + strings.Join(data, ",") + "]", nil
 }

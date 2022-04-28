@@ -49,5 +49,8 @@ from
 		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 
+	// return format
+	// {"proc_num":210}
+
 	return proc, nil
 }

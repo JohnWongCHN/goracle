@@ -50,5 +50,8 @@ FROM
 		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 
+	// return format
+	// {"datafile_num":14}
+
 	return datafiles, nil
 }
