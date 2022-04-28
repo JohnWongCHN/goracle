@@ -26,12 +26,13 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 
 	"git.zabbix.com/ap/plugin-support/zbxerr"
 )
 
 func procHandler(ctx context.Context, conn OraClient, params map[string]string, _ ...string) (interface{}, error) {
-	var proc string
+	var proc int
 	_sql := `
 select
     count(*) "proc_num"
@@ -49,8 +50,10 @@ from
 		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 
+	jsonRes, _ := json.Marshal(map[string]int{"proc_num": proc})
+
 	// return format
 	// {"proc_num":210}
 
-	return proc, nil
+	return string(jsonRes), nil
 }

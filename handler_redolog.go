@@ -26,14 +26,13 @@ package main
 
 import (
 	"context"
-	"database/sql"
 	"encoding/json"
-	"strings"
 
 	"git.zabbix.com/ap/plugin-support/zbxerr"
 )
 
 func redoLogHandler(ctx context.Context, conn OraClient, params map[string]string, _ ...string) (interface{}, error) {
+	var redologs int
 
 	_sql := `
 select
@@ -44,49 +43,20 @@ where
     status in ('INACTIVE', 'UNUSED')
 	`
 
-	rows, err := conn.Query(ctx, _sql)
-	if err != nil {
-		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
-	}
-	defer rows.Close()
-
-	// JSON marshaling
-	var data []string
-
-	columns, err := rows.Columns()
+	row, err := conn.QueryRow(ctx, _sql)
 	if err != nil {
 		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 
-	values := make([]interface{}, len(columns))
-	valuePointers := make([]interface{}, len(values))
-
-	for i := range values {
-		valuePointers[i] = &values[i]
+	err = row.Scan(&redologs)
+	if err != nil {
+		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 
-	results := make(map[string]interface{})
-
-	for rows.Next() {
-		err = rows.Scan(valuePointers...)
-		if err != nil {
-			if err == sql.ErrNoRows {
-				return nil, zbxerr.ErrorEmptyResult.Wrap(err)
-			}
-
-			return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
-		}
-
-		for i, value := range values {
-			results[columns[i]] = value
-		}
-
-		jsonRes, _ := json.Marshal(results)
-		data = append(data, strings.TrimSpace(string(jsonRes)))
-	}
+	jsonRes, _ := json.Marshal(map[string]int{"available": redologs})
 
 	// return format
 	// {"available":2}
 
-	return "[" + strings.Join(data, ",") + "]", nil
+	return string(jsonRes), nil
 }

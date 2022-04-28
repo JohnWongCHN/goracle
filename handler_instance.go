@@ -28,7 +28,6 @@ import (
 	"context"
 	"database/sql"
 	"encoding/json"
-	"strings"
 
 	"git.zabbix.com/ap/plugin-support/zbxerr"
 )
@@ -53,9 +52,6 @@ FROM
 		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 	defer rows.Close()
-
-	// JSON marshaling
-	var data []string
 
 	columns, err := rows.Columns()
 	if err != nil {
@@ -85,12 +81,12 @@ FROM
 			results[columns[i]] = value
 		}
 
-		jsonRes, _ := json.Marshal(results)
-		data = append(data, strings.TrimSpace(string(jsonRes)))
 	}
+
+	jsonRes, _ := json.Marshal(results)
 
 	// return format
 	// {"instance":"ora19c","hostname":"oracle19C","version":"19.0.0.0.0-EE","uptime":19326921,"status":3,"archiver":1,"role":1}
 
-	return "[" + strings.Join(data, ",") + "]", nil
+	return string(jsonRes), nil
 }

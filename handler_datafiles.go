@@ -26,12 +26,13 @@ package main
 
 import (
 	"context"
+	"encoding/json"
 
 	"git.zabbix.com/ap/plugin-support/zbxerr"
 )
 
 func dataFileHandler(ctx context.Context, conn OraClient, params map[string]string, _ ...string) (interface{}, error) {
-	var datafiles string
+	var datafiles int
 
 	_sql := `
 SELECT
@@ -50,8 +51,10 @@ FROM
 		return nil, zbxerr.ErrorCannotFetchData.Wrap(err)
 	}
 
+	jsonRes, _ := json.Marshal(map[string]int{"datafile_num": datafiles})
+
 	// return format
 	// {"datafile_num":14}
 
-	return datafiles, nil
+	return string(jsonRes), nil
 }
