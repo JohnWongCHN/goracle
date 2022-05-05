@@ -1,2613 +1,2171 @@
 zabbix_export:
-  version: '6.0'
-  date: '2022-04-26T01:50:59Z'
+  version: "6.0"
+  date: "2022-04-28T08:04:35Z"
   groups:
-    -
-      uuid: 748ad4d098d447d492bb935c907f652f
+    - uuid: 748ad4d098d447d492bb935c907f652f
       name: Templates/Databases
   templates:
-    -
-      uuid: e7c61176681b4135b3b4219c30c2a15a
-      template: 'Template DB Oracle by Goracle plugin'
-      name: 'Template DB Oracle by Goracle plugin'
-      description: 'Go based Zabbix agent 2 external plugin for Oracle database'
+    - uuid: e7c61176681b4135b3b4219c30c2a15a
+      template: "Template DB Oracle by Goracle plugin"
+      name: "Template DB Oracle by Goracle plugin"
+      description: "Go based Zabbix agent 2 external plugin for Oracle database"
       groups:
-        -
-          name: Templates/Databases
+        - name: Templates/Databases
       items:
-        -
-          uuid: b4f731fb1c4a46359de28cb5b9f18a5f
-          name: 'Oracle: Get archive log info'
+        - uuid: b4f731fb1c4a46359de28cb5b9f18a5f
+          name: "Oracle: Get archive log info"
           key: 'goracle.archive.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           delay: 5m
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 4976cdb6bfd5401dabfbaf12ae6f6530
-          name: 'Oracle: Get CDB and No-CDB info'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 4976cdb6bfd5401dabfbaf12ae6f6530
+          name: "Oracle: Get CDB and No-CDB info"
           key: 'goracle.cdb.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'Get info about CDB and  No-CDB databases on instansce.'
+          description: "Get info about CDB and  No-CDB databases on instansce."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 88f9b51d143e4933a035b0042d2adf8c
-          name: 'Oracle: Get ASM stats'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 9045aea7f9884790b2f65ed1e44e2157
+          name: "Oracle: Datafiles count"
+          key: 'goracle.datafiles.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
+          history: 7d
+          description: "Current number of datafile."
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.datafile_num
+          tags:
+            - tag: Application
+              value: Oracle
+        - uuid: 88f9b51d143e4933a035b0042d2adf8c
+          name: "Oracle: Get ASM stats"
           key: 'goracle.diskgroups.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'Get ASM disk groups stats.'
+          description: "Get ASM disk groups stats."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 5000058f60024690b2a6fe0b49869a43
-          name: 'Oracle: Get FRA stats'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 5000058f60024690b2a6fe0b49869a43
+          name: "Oracle: Get FRA stats"
           key: 'goracle.fra.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'Get FRA statistics.'
+          description: "Get FRA statistics."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: b3d5871e77144b46be0ed1b8cdf68029
-          name: 'Oracle: Get instance state'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: b3d5871e77144b46be0ed1b8cdf68029
+          name: "Oracle: Get instance state"
           key: 'goracle.instance.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'The item gets state of the current instance.'
+          description: "The item gets state of the current instance."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 085c119c727e496c8ef1a19395bec32c
-          name: 'Oracle: Get PDB info'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 085c119c727e496c8ef1a19395bec32c
+          name: "Oracle: Get PDB info"
           key: 'goracle.pdb.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'Get info about PDB databases on instansce.'
+          description: "Get info about PDB databases on instansce."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 99fc7d4158e1492190a41f600623800e
-          name: 'Oracle: Get PGA stats'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 99fc7d4158e1492190a41f600623800e
+          name: "Oracle: Get PGA stats"
           key: 'goracle.pga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'Get PGA statistics.'
+          description: "Get PGA statistics."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 36755f89e14e458fac4e61bbed5c29fb
-          name: 'Oracle: Get sessions stats'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: bdd6e0562f7a4535b4340c252fac5c34
+          name: "Oracle: Ping"
+          key: 'goracle.ping["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
+          delay: 30s
+          history: 7d
+          description: "Test the connection to Oracle Database state"
+          valuemap:
+            name: "Service state"
+          preprocessing:
+            - type: DISCARD_UNCHANGED_HEARTBEAT
+              parameters:
+                - 10m
+          tags:
+            - tag: Application
+              value: Oracle
+          triggers:
+            - uuid: 8ff5f581487b47bdbd86442cb61a63e7
+              expression: 'last(/Template DB Oracle by Goracle plugin/goracle.ping["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"])=0'
+              name: "Oracle: Connection to database is unavailable"
+              priority: DISASTER
+              description: "Connection to Oracle Database is currently unavailable."
+        - uuid: 0cb053e91c7d4a7b81b49944d27ac077
+          name: "Oracle: Number of processes"
+          key: 'goracle.proc.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
+          history: 7d
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.proc_num
+          tags:
+            - tag: Application
+              value: Oracle
+        - uuid: d1b79a269d924a758c40e3c916a04e81
+          name: "Oracle: Redo logs available to switch"
+          key: 'goracle.redolog.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
+          history: 7d
+          description: "Number of available for log switching inactive/unused REDO logs."
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.available
+          tags:
+            - tag: Application
+              value: Oracle
+          triggers:
+            - uuid: 2e6a447e318a4480bee3990d78f71580
+              expression: 'max(/Template DB Oracle by Goracle plugin/goracle.redolog.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"],5m) < {$ORACLE.REDO.MIN.WARN}'
+              name: "Oracle: Number of REDO logs available for switching is too low (less {$ORACLE.REDO.MIN.WARN} for 5 min)"
+              priority: WARNING
+              description: "Number of available for log switching inactive/unused REDOs is low (Database down risk)"
+        - uuid: 36755f89e14e458fac4e61bbed5c29fb
+          name: "Oracle: Get sessions stats"
           key: 'goracle.sessions.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'Get sessions statistics. {$ORACLE.SESSION.LOCK.MAX.TIME} -- maximum seconds in the current wait condition for counting long time locked sessions. Default: 600 seconds.'
+          description: "Get sessions statistics. {$ORACLE.SESSION.LOCK.MAX.TIME} -- maximum seconds in the current wait condition for counting long time locked sessions. Default: 600 seconds."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 551c1b6203574664b42bab0737d385b6
-          name: 'Oracle: Get SGA stats'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 551c1b6203574664b42bab0737d385b6
+          name: "Oracle: Get SGA stats"
           key: 'goracle.sga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'Get SGA statistics.'
+          description: "Get SGA statistics."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 97ca80abbc8140078336287ff37fa4df
-          name: 'Oracle: Get system metrics'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 97ca80abbc8140078336287ff37fa4df
+          name: "Oracle: Get system metrics"
           key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           delay: 0;m0-59
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'The item gets system metric values.'
+          description: "The item gets system metric values."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 7378cd1d43534f07a59727c732d647e3
-          name: 'Oracle: Get system parameters'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 7378cd1d43534f07a59727c732d647e3
+          name: "Oracle: Get system parameters"
           key: 'goracle.sys.params["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'Get a set of system parameter values.'
+          description: "Get a set of system parameter values."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: 1a4bdbb74fc94034be455c90dba7a801
-          name: 'Oracle: Get tablespaces stats'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 1a4bdbb74fc94034be455c90dba7a801
+          name: "Oracle: Get tablespaces stats"
           key: 'goracle.ts.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: '0'
-          trends: '0'
+          history: "0"
+          trends: "0"
           value_type: TEXT
-          description: 'Get tablespaces stats.'
+          description: "Get tablespaces stats."
           tags:
-            -
-              tag: Application
-              value: 'Zabbix raw items'
-        -
-          uuid: b531d90605f4445191e658b3c72641ab
-          name: 'Oracle: Active parallel sessions'
+            - tag: Application
+              value: "Zabbix raw items"
+        - uuid: 34334dad347445b384389ed4cf851a24
+          name: "Oracle: User's expire password"
+          key: 'goracle.user.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
+          history: 7d
+          value_type: FLOAT
+          units: days
+          description: "The number of days before zabbix account password expired."
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.exp_passwd_days_before
+          tags:
+            - tag: Application
+              value: Oracle
+          triggers:
+            - uuid: fc3b92b1d5a74b05a6024be21409a063
+              expression: 'last(/Template DB Oracle by Goracle plugin/goracle.user.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"])  < {$ORACLE.EXPIRE.PASSWORD.MIN.WARN}'
+              name: "Oracle: Zabbix account will expire soon (under {$ORACLE.EXPIRE.PASSWORD.MIN.WARN} days)"
+              priority: WARNING
+              description: "Password for zabbix user in the database will expire soon."
+        - uuid: b531d90605f4445191e658b3c72641ab
+          name: "Oracle: Active parallel sessions"
           type: DEPENDENT
           key: oracle.active_parallel_sessions
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'The number of active parallel sessions.'
+          description: "The number of active parallel sessions."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Active Parallel Sessions'']'
+                - "$.['Active Parallel Sessions']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 994cf2bd396e42bb808b34dd3fad5e14
-          name: 'Oracle: Active serial sessions'
+        - uuid: 994cf2bd396e42bb808b34dd3fad5e14
+          name: "Oracle: Active serial sessions"
           type: DEPENDENT
           key: oracle.active_serial_sessions
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'The number of active serial sessions.'
+          description: "The number of active serial sessions."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Active Serial Sessions'']'
+                - "$.['Active Serial Sessions']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: ed06d5a2e7ba4f04a1693b744e49d65d
-          name: 'Oracle: Average active sessions'
+        - uuid: ed06d5a2e7ba4f04a1693b744e49d65d
+          name: "Oracle: Average active sessions"
           type: DEPENDENT
           key: oracle.active_sessions
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'The average active sessions at a point in time. It is the number of sessions that are either working or waiting.'
+          description: "The average active sessions at a point in time. It is the number of sessions that are either working or waiting."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Average Active Sessions'']'
+                - "$.['Average Active Sessions']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 3c7f96a68bfe48c5a5bf0286f2bf915b
-          name: 'Oracle: Archiver state'
+        - uuid: 3c7f96a68bfe48c5a5bf0286f2bf915b
+          name: "Oracle: Archiver state"
           type: DEPENDENT
           key: oracle.archiver_state
-          delay: '0'
+          delay: "0"
           history: 7d
-          description: 'Automatic archiving status.'
+          description: "Automatic archiving status."
           valuemap:
-            name: 'Oracle archiver state'
+            name: "Oracle archiver state"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $..archiver.first()
           master_item:
             key: 'goracle.instance.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 197436e1601f49fe91e332defcdc16b9
-          name: 'Oracle: Buffer cache hit ratio'
+        - uuid: 197436e1601f49fe91e332defcdc16b9
+          name: "Oracle: Buffer cache hit ratio"
           type: DEPENDENT
           key: oracle.buffer_cache_hit_ratio
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
-          description: 'Ratio of buffer cache hits. (LogRead - PhyRead)/LogRead'
+          units: "%"
+          description: "Ratio of buffer cache hits. (LogRead - PhyRead)/LogRead"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Buffer Cache Hit Ratio'']'
+                - "$.['Buffer Cache Hit Ratio']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: a2e2b5a6c62a48b2bd65f5f10cd5aef6
-          name: 'Oracle: Global cache blocks corrupted'
+        - uuid: a2e2b5a6c62a48b2bd65f5f10cd5aef6
+          name: "Oracle: Global cache blocks corrupted"
           type: DEPENDENT
           key: oracle.cache_blocks_corrupt
-          delay: '0'
+          delay: "0"
           history: 7d
-          description: 'The number of blocks that encountered a corruption or checksum failure during interconnect.'
+          description: "The number of blocks that encountered a corruption or checksum failure during interconnect."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Global Cache Blocks Corrupted'']'
+                - "$.['Global Cache Blocks Corrupted']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 5b98538ea36d4c92a2ce3e9801a6145a
-          name: 'Oracle: Global cache blocks lost'
+        - uuid: 5b98538ea36d4c92a2ce3e9801a6145a
+          name: "Oracle: Global cache blocks lost"
           type: DEPENDENT
           key: oracle.cache_blocks_lost
-          delay: '0'
+          delay: "0"
           history: 7d
-          description: 'The number of global cache blocks lost'
+          description: "The number of global cache blocks lost"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Global Cache Blocks Lost'']'
+                - "$.['Global Cache Blocks Lost']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 8d98d37347fb46ddbe6f4c8dfe80149a
-          name: 'Oracle: Cursor cache hit ratio'
+        - uuid: 8d98d37347fb46ddbe6f4c8dfe80149a
+          name: "Oracle: Cursor cache hit ratio"
           type: DEPENDENT
           key: oracle.cursor_cache_hit_ratio
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
-          description: 'Ratio of cursor cache hits. CursorCacheHit/SoftParse'
+          units: "%"
+          description: "Ratio of cursor cache hits. CursorCacheHit/SoftParse"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Cursor Cache Hit Ratio'']'
+                - "$.['Cursor Cache Hit Ratio']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: f96488cbf3ca49f484813ffe7417aee8
-          name: 'Oracle: Database CPU time ratio'
+        - uuid: f96488cbf3ca49f484813ffe7417aee8
+          name: "Oracle: Database CPU time ratio"
           type: DEPENDENT
           key: oracle.database_cpu_time_ratio
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
-          description: 'Calculated by dividing the total CPU used by the database by the Oracle time model statistic DB time.'
+          units: "%"
+          description: "Calculated by dividing the total CPU used by the database by the Oracle time model statistic DB time."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Database CPU Time Ratio'']'
+                - "$.['Database CPU Time Ratio']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: c27f071e38314110a584764a251d45de
-          name: 'Oracle: Database wait time ratio'
+        - uuid: c27f071e38314110a584764a251d45de
+          name: "Oracle: Database wait time ratio"
           type: DEPENDENT
           key: oracle.database_wait_time_ratio
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
-          description: 'Wait time: the time that the server process spends waiting for available shared resources (to be released by other server processes) such as latches, locks, data buffers, and so on'
+          units: "%"
+          description: "Wait time: the time that the server process spends waiting for available shared resources (to be released by other server processes) such as latches, locks, data buffers, and so on"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Database Wait Time Ratio'']'
+                - "$.['Database Wait Time Ratio']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 9045aea7f9884790b2f65ed1e44e2157
-          name: 'Oracle: Datafiles count'
-          key: 'oracle.datafiles.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: 7d
-          description: 'Current number of datafile.'
-          preprocessing:
-            -
-              type: JSONPATH
-              parameters:
-                - $.datafile_num
-          tags:
-            -
-              tag: Application
-              value: Oracle
-        -
-          uuid: 9e81bcca5ac8424b905ed61102da3db4
-          name: 'Oracle: Datafiles limit'
+        - uuid: 9e81bcca5ac8424b905ed61102da3db4
+          name: "Oracle: Datafiles limit"
           type: DEPENDENT
           key: oracle.db_files_limit
-          delay: '0'
+          delay: "0"
           history: 7d
-          description: 'Max allowable number of  datafile.'
+          description: "Max allowable number of  datafile."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.db_files
           master_item:
             key: 'goracle.sys.params["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 7f974d6a0400426993f074def12625e6
-          name: 'Oracle: Disk sort per second'
+        - uuid: 7f974d6a0400426993f074def12625e6
+          name: "Oracle: Disk sort per second"
           type: DEPENDENT
           key: oracle.disk_sorts
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Rps
-          description: 'The number of sorts going to disk per second'
+          description: "The number of sorts going to disk per second"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Disk Sort Per Sec'']'
+                - "$.['Disk Sort Per Sec']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 587ab9b736fb4c22800da37d5d630a8e
-          name: 'Oracle: Enqueue timeouts per second'
+        - uuid: 587ab9b736fb4c22800da37d5d630a8e
+          name: "Oracle: Enqueue timeouts per second"
           type: DEPENDENT
           key: oracle.enqueue_timeouts_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Rps
-          description: 'Enqueue timeouts per second.'
+          description: "Enqueue timeouts per second."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Enqueue Timeouts Per Sec'']'
+                - "$.['Enqueue Timeouts Per Sec']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 3df3bece00d242d78d35b4bce486ff5f
-          name: 'Oracle: FRA, Number of files'
+        - uuid: 3df3bece00d242d78d35b4bce486ff5f
+          name: "Oracle: FRA, Number of files"
           type: DEPENDENT
           key: oracle.fra_number_of_files
-          delay: '0'
+          delay: "0"
           history: 7d
-          description: 'Number of files in the fast recovery area'
+          description: "Number of files in the fast recovery area"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.number_of_files
           master_item:
             key: 'goracle.fra.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 3184e6fc42a44786ad85b1b069c83793
-          name: 'Oracle: FRA, Number of restore points'
+        - uuid: 3184e6fc42a44786ad85b1b069c83793
+          name: "Oracle: FRA, Number of restore points"
           type: DEPENDENT
           key: oracle.fra_restore_point
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.restore_point
           master_item:
             key: 'goracle.fra.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: e5e7e11910e2494591647101a995dd01
-          name: 'Oracle: FRA, Space limit'
+        - uuid: e5e7e11910e2494591647101a995dd01
+          name: "Oracle: FRA, Space limit"
           type: DEPENDENT
           key: oracle.fra_space_limit
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Maximum amount of disk space (in bytes) that the database can use for the fast recovery area.'
+          description: "Maximum amount of disk space (in bytes) that the database can use for the fast recovery area."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.space_limit
           master_item:
             key: 'goracle.fra.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: af608df6d24843b7a47cf26fba9d073f
-          name: 'Oracle: FRA, Space reclaimable'
+        - uuid: af608df6d24843b7a47cf26fba9d073f
+          name: "Oracle: FRA, Space reclaimable"
           type: DEPENDENT
           key: oracle.fra_space_reclaimable
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Total amount of disk space (in bytes) that can be created by deleting obsolete, redundant, and other low priority files from the fast recovery area.'
+          description: "Total amount of disk space (in bytes) that can be created by deleting obsolete, redundant, and other low priority files from the fast recovery area."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.space_reclaimable
           master_item:
             key: 'goracle.fra.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 16a710a2c42744a7bb3f1064483e108c
-          name: 'Oracle: FRA, Used space'
+        - uuid: 16a710a2c42744a7bb3f1064483e108c
+          name: "Oracle: FRA, Used space"
           type: DEPENDENT
           key: oracle.fra_space_used
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Amount of disk space (in bytes) used by fast recovery area files created in current and all previous fast recovery areas.'
+          description: "Amount of disk space (in bytes) used by fast recovery area files created in current and all previous fast recovery areas."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.space_used
           master_item:
             key: 'goracle.fra.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: f8da3c58da3e4f5f96233c16cc7e439b
-          name: 'Oracle: FRA, Used space in %'
+        - uuid: f8da3c58da3e4f5f96233c16cc7e439b
+          name: "Oracle: FRA, Used space in %"
           type: DEPENDENT
           key: oracle.fra_usable_pct
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
+          units: "%"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.usable_pct
           master_item:
             key: 'goracle.fra.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 80e83735e20b4b8baeabd40951b39e4e
-          name: 'Oracle: GC CR block received per second'
+        - uuid: 80e83735e20b4b8baeabd40951b39e4e
+          name: "Oracle: GC CR block received per second"
           type: DEPENDENT
           key: oracle.gc_cr_block_received_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Rps
-          description: 'GC CR block received per second.'
+          description: "GC CR block received per second."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''GC CR Block Received Per Second'']'
+                - "$.['GC CR Block Received Per Second']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 8ceb617e2fcc422c8936e33ee06fe9dc
-          name: 'Oracle: Instance role'
+        - uuid: 8ceb617e2fcc422c8936e33ee06fe9dc
+          name: "Oracle: Instance role"
           type: DEPENDENT
           key: oracle.instance.role
-          delay: '0'
+          delay: "0"
           history: 7d
-          description: 'Indicates whether the instance is an active instance or an inactive secondary instance.'
+          description: "Indicates whether the instance is an active instance or an inactive secondary instance."
           valuemap:
-            name: 'Oracle instance role'
+            name: "Oracle instance role"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.role
           master_item:
             key: 'goracle.instance.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: d952bbdff78b45fc86efafcbb08a6bc8
-          name: 'Oracle: Instance hostname'
+        - uuid: d952bbdff78b45fc86efafcbb08a6bc8
+          name: "Oracle: Instance hostname"
           type: DEPENDENT
           key: oracle.instance_hostname
-          delay: '0'
+          delay: "0"
           history: 7d
-          trends: '0'
+          trends: "0"
           value_type: CHAR
-          description: 'Name of the host machine.'
+          description: "Name of the host machine."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $..hostname.first()
           master_item:
             key: 'goracle.instance.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
           triggers:
-            -
-              uuid: 50c46dfb34cf447f97f4efc0e4074b89
-              expression: '(last(/Template DB Oracle by Goracle plugin/oracle.instance_hostname,#1)<>last(/Template DB Oracle by Goracle plugin/oracle.instance_hostname,#2))=1 and length(last(/Template DB Oracle by Goracle plugin/oracle.instance_hostname))>0'
-              name: 'Oracle: Instance hostname has changed (new hostname received: {ITEM.VALUE})'
+            - uuid: 50c46dfb34cf447f97f4efc0e4074b89
+              expression: "(last(/Template DB Oracle by Goracle plugin/oracle.instance_hostname,#1)<>last(/Template DB Oracle by Goracle plugin/oracle.instance_hostname,#2))=1 and length(last(/Template DB Oracle by Goracle plugin/oracle.instance_hostname))>0"
+              name: "Oracle: Instance hostname has changed (new hostname received: {ITEM.VALUE})"
               priority: INFO
-              description: 'Oracle DB Instance hostname has changed. Ack to close.'
-              manual_close: 'YES'
-        -
-          uuid: afb4ef44f09c40a984060755d01b59a7
-          name: 'Oracle: Instance name'
+              description: "Oracle DB Instance hostname has changed. Ack to close."
+              manual_close: "YES"
+        - uuid: afb4ef44f09c40a984060755d01b59a7
+          name: "Oracle: Instance name"
           type: DEPENDENT
           key: oracle.instance_name
-          delay: '0'
+          delay: "0"
           history: 7d
-          trends: '0'
+          trends: "0"
           value_type: CHAR
-          description: 'Name of the instance.'
+          description: "Name of the instance."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.instance
           master_item:
             key: 'goracle.instance.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
           triggers:
-            -
-              uuid: f06813e3aca643e3b007e2eadd2e5f84
-              expression: '(last(/Template DB Oracle by Goracle plugin/oracle.instance_name,#1)<>last(/Template DB Oracle by Goracle plugin/oracle.instance_name,#2))=1 and length(last(/Template DB Oracle by Goracle plugin/oracle.instance_name))>0'
-              name: 'Oracle: Instance name has changed (new name received: {ITEM.VALUE})'
+            - uuid: f06813e3aca643e3b007e2eadd2e5f84
+              expression: "(last(/Template DB Oracle by Goracle plugin/oracle.instance_name,#1)<>last(/Template DB Oracle by Goracle plugin/oracle.instance_name,#2))=1 and length(last(/Template DB Oracle by Goracle plugin/oracle.instance_name))>0"
+              name: "Oracle: Instance name has changed (new name received: {ITEM.VALUE})"
               priority: INFO
-              description: 'Oracle DB Instance name has changed. Ack to close.'
-              manual_close: 'YES'
-        -
-          uuid: 9abacffae7a34a7a95efa3e8915741ba
-          name: 'Oracle: Instance status'
+              description: "Oracle DB Instance name has changed. Ack to close."
+              manual_close: "YES"
+        - uuid: 9abacffae7a34a7a95efa3e8915741ba
+          name: "Oracle: Instance status"
           type: DEPENDENT
           key: oracle.instance_status
-          delay: '0'
+          delay: "0"
           history: 7d
-          description: 'Status of the instance.'
+          description: "Status of the instance."
           valuemap:
-            name: 'Oracle instance status'
+            name: "Oracle instance status"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.status
           master_item:
             key: 'goracle.instance.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: d1d874bbd7634813862d23921590dea6
-          name: 'Oracle: Library cache hit ratio'
+        - uuid: d1d874bbd7634813862d23921590dea6
+          name: "Oracle: Library cache hit ratio"
           type: DEPENDENT
           key: oracle.library_cache_hit_ratio
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
-          description: 'Ratio of library cache hits. Hits/Pins'
+          units: "%"
+          description: "Ratio of library cache hits. Hits/Pins"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Library Cache Hit Ratio'']'
+                - "$.['Library Cache Hit Ratio']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 0742b99de6964af68084c7713989da36
-          name: 'Oracle: Logons per second'
+        - uuid: 0742b99de6964af68084c7713989da36
+          name: "Oracle: Logons per second"
           type: DEPENDENT
           key: oracle.logons_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Rps
-          description: 'The number of logon attempts.'
+          description: "The number of logon attempts."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Logons Per Sec'']'
+                - "$.['Logons Per Sec']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 4a9ce16469ee497aba2b41369f789a77
-          name: 'Oracle: Long table scans per second'
+        - uuid: 4a9ce16469ee497aba2b41369f789a77
+          name: "Oracle: Long table scans per second"
           type: DEPENDENT
           key: oracle.long_table_scans_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Rps
-          description: 'The number of long table scans per second. A table is considered ''long'' if the table is not cached and if its high-water mark is greater than 5 blocks.'
+          description: "The number of long table scans per second. A table is considered 'long' if the table is not cached and if its high-water mark is greater than 5 blocks."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Long Table Scans Per Sec'']'
+                - "$.['Long Table Scans Per Sec']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 94231b1c11244425924c887144ad7bfd
-          name: 'Oracle: Memory sorts ratio'
+        - uuid: 94231b1c11244425924c887144ad7bfd
+          name: "Oracle: Memory sorts ratio"
           type: DEPENDENT
           key: oracle.memory_sorts_ratio
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
-          description: 'The percentage of sorts (from ORDER BY clauses or index building) that are done to disk vs in-memory.'
+          units: "%"
+          description: "The percentage of sorts (from ORDER BY clauses or index building) that are done to disk vs in-memory."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Memory Sorts Ratio'']'
+                - "$.['Memory Sorts Ratio']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: fa917285242f4553aa0b50ec89cb1464
-          name: 'Oracle: PGA, Global memory bound'
+        - uuid: fa917285242f4553aa0b50ec89cb1464
+          name: "Oracle: PGA, Global memory bound"
           type: DEPENDENT
           key: oracle.pga_global_bound
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Maximum size of a work area executed in automatic mode.'
+          description: "Maximum size of a work area executed in automatic mode."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''global memory bound'']'
+                - "$.['global memory bound']"
           master_item:
             key: 'goracle.pga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 892b16b4c58146bf84ffb98acdb24af2
-          name: 'Oracle: PGA, Aggregate target parameter'
+        - uuid: 892b16b4c58146bf84ffb98acdb24af2
+          name: "Oracle: PGA, Aggregate target parameter"
           type: DEPENDENT
           key: oracle.pga_target
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Current value of the PGA_AGGREGATE_TARGET initialization parameter. If this parameter is not set, then its value is 0 and automatic management of PGA memory is disabled.'
+          description: "Current value of the PGA_AGGREGATE_TARGET initialization parameter. If this parameter is not set, then its value is 0 and automatic management of PGA memory is disabled."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''aggregate PGA target parameter'']'
+                - "$.['aggregate PGA target parameter']"
           master_item:
             key: 'goracle.pga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: e4186f8eb27a4b79970eadc4e63fdca0
-          name: 'Oracle: Physical reads per second'
+        - uuid: e4186f8eb27a4b79970eadc4e63fdca0
+          name: "Oracle: Physical reads per second"
           type: DEPENDENT
           key: oracle.physical_reads_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Rps
-          description: 'Reads per second.'
+          description: "Reads per second."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Physical Reads Per Sec'']'
+                - "$.['Physical Reads Per Sec']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 02102e4de1414b668394e898af67fda3
-          name: 'Oracle: Physical reads bytes per second'
+        - uuid: 02102e4de1414b668394e898af67fda3
+          name: "Oracle: Physical reads bytes per second"
           type: DEPENDENT
           key: oracle.physical_read_bytes_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Bps
-          description: 'Read bytes per second.'
+          description: "Read bytes per second."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Physical Read Bytes Per Sec'']'
+                - "$.['Physical Read Bytes Per Sec']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 7fceb5f6b10f4e20ad2f22f5596c952c
-          name: 'Oracle: Physical writes per second'
+        - uuid: 7fceb5f6b10f4e20ad2f22f5596c952c
+          name: "Oracle: Physical writes per second"
           type: DEPENDENT
           key: oracle.physical_writes_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Rps
-          description: 'Writes per second.'
+          description: "Writes per second."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Physical Writes Per Sec'']'
+                - "$.['Physical Writes Per Sec']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: a71fa9aa290741629846b6a08572b434
-          name: 'Oracle: Physical writes bytes per second'
+        - uuid: a71fa9aa290741629846b6a08572b434
+          name: "Oracle: Physical writes bytes per second"
           type: DEPENDENT
           key: oracle.physical_write_bytes_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Bps
-          description: 'Write bytes per second.'
+          description: "Write bytes per second."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Physical Write Bytes Per Sec'']'
+                - "$.['Physical Write Bytes Per Sec']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: bdd6e0562f7a4535b4340c252fac5c34
-          name: 'Oracle: Ping'
-          key: 'oracle.ping["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          delay: 30s
-          history: 7d
-          description: 'Test the connection to Oracle Database state'
-          valuemap:
-            name: 'Service state'
-          preprocessing:
-            -
-              type: DISCARD_UNCHANGED_HEARTBEAT
-              parameters:
-                - 10m
-          tags:
-            -
-              tag: Application
-              value: Oracle
-          triggers:
-            -
-              uuid: 8ff5f581487b47bdbd86442cb61a63e7
-              expression: 'last(/Template DB Oracle by Goracle plugin/oracle.ping["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"])=0'
-              name: 'Oracle: Connection to database is unavailable'
-              priority: DISASTER
-              description: 'Connection to Oracle Database is currently unavailable.'
-        -
-          uuid: 0cb053e91c7d4a7b81b49944d27ac077
-          name: 'Oracle: Number of processes'
-          key: 'oracle.proc.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: 7d
-          preprocessing:
-            -
-              type: JSONPATH
-              parameters:
-                - $.proc_num
-          tags:
-            -
-              tag: Application
-              value: Oracle
-        -
-          uuid: 88687f95fde74e289ed60fba66de970f
-          name: 'Oracle: Processes limit'
+        - uuid: 88687f95fde74e289ed60fba66de970f
+          name: "Oracle: Processes limit"
           type: DEPENDENT
           key: oracle.processes_limit
-          delay: '0'
+          delay: "0"
           history: 7d
-          description: 'Max user processes.'
+          description: "Max user processes."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.processes
           master_item:
             key: 'goracle.sys.params["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: d1b79a269d924a758c40e3c916a04e81
-          name: 'Oracle: Redo logs available to switch'
-          key: 'oracle.redolog.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: 7d
-          description: 'Number of available for log switching inactive/unused REDO logs.'
-          preprocessing:
-            -
-              type: JSONPATH
-              parameters:
-                - $.available
-          tags:
-            -
-              tag: Application
-              value: Oracle
-          triggers:
-            -
-              uuid: 2e6a447e318a4480bee3990d78f71580
-              expression: 'max(/Template DB Oracle by Goracle plugin/oracle.redolog.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"],5m) < {$ORACLE.REDO.MIN.WARN}'
-              name: 'Oracle: Number of REDO logs available for switching is too low (less {$ORACLE.REDO.MIN.WARN} for 5 min)'
-              priority: WARNING
-              description: 'Number of available for log switching inactive/unused REDOs is low (Database down risk)'
-        -
-          uuid: add428ebb70945af9044885d9b0ae510
-          name: 'Oracle: Rows per sort'
+        - uuid: add428ebb70945af9044885d9b0ae510
+          name: "Oracle: Rows per sort"
           type: DEPENDENT
           key: oracle.rows_per_sort
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'The average number of rows per sort for all types of sorts performed.'
+          description: "The average number of rows per sort for all types of sorts performed."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Rows Per Sort'']'
+                - "$.['Rows Per Sort']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 0d814cbca142413499def00f1e5e7364
-          name: 'Oracle: SQL service response time'
+        - uuid: 0d814cbca142413499def00f1e5e7364
+          name: "Oracle: SQL service response time"
           type: DEPENDENT
           key: oracle.service_response_time
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: s
-          description: 'SQL service response time in seconds.'
+          description: "SQL service response time in seconds."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''SQL Service Response Time'']'
-            -
-              type: MULTIPLIER
+                - "$.['SQL Service Response Time']"
+            - type: MULTIPLIER
               parameters:
-                - '0.01'
+                - "0.01"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: e5e7d3952e734e7d9e3b497145122798
-          name: 'Oracle: Active background sessions'
+        - uuid: e5e7d3952e734e7d9e3b497145122798
+          name: "Oracle: Active background sessions"
           type: DEPENDENT
           key: oracle.session_active_background
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'The number of active background sessions.'
+          description: "The number of active background sessions."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.active_background
               error_handler: CUSTOM_VALUE
-              error_handler_params: '0'
+              error_handler_params: "0"
           master_item:
             key: 'goracle.sessions.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 9d66e5fde9b445fbbcf7c3b319ad798c
-          name: 'Oracle: Active user sessions'
+        - uuid: 9d66e5fde9b445fbbcf7c3b319ad798c
+          name: "Oracle: Active user sessions"
           type: DEPENDENT
           key: oracle.session_active_user
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'The number of active user sessions.'
+          description: "The number of active user sessions."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.active_user
               error_handler: CUSTOM_VALUE
-              error_handler_params: '0'
+              error_handler_params: "0"
           master_item:
             key: 'goracle.sessions.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 647523ec55214f338e4e1b1ddd05820e
-          name: 'Oracle: Sessions concurrency'
+        - uuid: 647523ec55214f338e4e1b1ddd05820e
+          name: "Oracle: Sessions concurrency"
           type: DEPENDENT
           key: oracle.session_concurrency_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
-          description: 'The percentage of concurrency. Concurrency is a DB behaviour when different transactions request to change the same resource - in case of modifying data transactions sequentially block temporarily the right to change data, the rest of the transactions are waiting for access. In the case when access for resource is locked for a long time, then the concurrency grows (like the transaction queue) and this often has an extremely negative impact on performance. A high contention value does not indicate the root cause of the problem, but is a signal to search for it.'
+          units: "%"
+          description: "The percentage of concurrency. Concurrency is a DB behaviour when different transactions request to change the same resource - in case of modifying data transactions sequentially block temporarily the right to change data, the rest of the transactions are waiting for access. In the case when access for resource is locked for a long time, then the concurrency grows (like the transaction queue) and this often has an extremely negative impact on performance. A high contention value does not indicate the root cause of the problem, but is a signal to search for it."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.concurrency_rate
           master_item:
             key: 'goracle.sessions.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
           triggers:
-            -
-              uuid: 394a51d5781f49dbaebee2dfc717a78b
-              expression: 'min(/Template DB Oracle by Goracle plugin/oracle.session_concurrency_rate,5m) > {$ORACLE.CONCURRENCY.MAX.WARN}'
-              name: 'Oracle: Too hight database concurrency (over {$ORACLE.CONCURRENCY.MAX.WARN}% for 5 min)'
+            - uuid: 394a51d5781f49dbaebee2dfc717a78b
+              expression: "min(/Template DB Oracle by Goracle plugin/oracle.session_concurrency_rate,5m) > {$ORACLE.CONCURRENCY.MAX.WARN}"
+              name: "Oracle: Too hight database concurrency (over {$ORACLE.CONCURRENCY.MAX.WARN}% for 5 min)"
               priority: WARNING
               description: 'Concurrency rate is over {$ORACLE.CONCURRENCY.MAX.WARN}%. A high contention value does not indicate the root cause of the problem, but is a signal to search for it. In the case of high competition, an analysis of resource consumption should be carried out, the most "heavy" queries made in the database, possibly - session tracing. All this will help determine the root cause and possible optimization points both in the database configuration and in the logic of building queries of the application itself.'
-        -
-          uuid: 57f275d01856419489aa61181e74f6c5
-          name: 'Oracle: Session count'
+        - uuid: 57f275d01856419489aa61181e74f6c5
+          name: "Oracle: Session count"
           type: DEPENDENT
           key: oracle.session_count
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'Session count.'
+          description: "Session count."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.total
           master_item:
             key: 'goracle.sessions.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 554b13bbaec54c03886176be7676cf90
-          name: 'Oracle: Inactive user sessions'
+        - uuid: 554b13bbaec54c03886176be7676cf90
+          name: "Oracle: Inactive user sessions"
           type: DEPENDENT
           key: oracle.session_inactive_user
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'The number of inactive user sessions.'
+          description: "The number of inactive user sessions."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.inactive_user
               error_handler: CUSTOM_VALUE
-              error_handler_params: '0'
+              error_handler_params: "0"
           master_item:
             key: 'goracle.sessions.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 102ba123bc7b4c88a45e1e67ccf5b009
-          name: 'Oracle: Sessions limit'
+        - uuid: 102ba123bc7b4c88a45e1e67ccf5b009
+          name: "Oracle: Sessions limit"
           type: DEPENDENT
           key: oracle.session_limit
-          delay: '0'
+          delay: "0"
           history: 7d
-          description: 'User and system sessions.'
+          description: "User and system sessions."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.sessions
           master_item:
             key: 'goracle.sys.params["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: d9235bfacb2b44d5bb9cccb09bbe0e86
-          name: 'Oracle: Sessions lock rate'
+        - uuid: d9235bfacb2b44d5bb9cccb09bbe0e86
+          name: "Oracle: Sessions lock rate"
           type: DEPENDENT
           key: oracle.session_lock_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
-          description: 'The percentage of locked sessions. Locks are mechanisms that prevent destructive interaction between transactions accessing the same resource—either user objects such as tables and rows or system objects not visible to users, such as shared data structures in memory and data dictionary rows.'
+          units: "%"
+          description: "The percentage of locked sessions. Locks are mechanisms that prevent destructive interaction between transactions accessing the same resource—either user objects such as tables and rows or system objects not visible to users, such as shared data structures in memory and data dictionary rows."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.lock_rate
           master_item:
             key: 'goracle.sessions.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
           triggers:
-            -
-              uuid: 01e38d935fe94720b97f59011f4569d3
-              expression: 'min(/Template DB Oracle by Goracle plugin/oracle.session_lock_rate,5m) > {$ORACLE.SESSIONS.LOCK.MAX.WARN}'
-              name: 'Oracle: Too many locked sessions (over {$ORACLE.SESSIONS.LOCK.MAX.WARN}% for 5 min)'
+            - uuid: 01e38d935fe94720b97f59011f4569d3
+              expression: "min(/Template DB Oracle by Goracle plugin/oracle.session_lock_rate,5m) > {$ORACLE.SESSIONS.LOCK.MAX.WARN}"
+              name: "Oracle: Too many locked sessions (over {$ORACLE.SESSIONS.LOCK.MAX.WARN}% for 5 min)"
               priority: WARNING
-              description: 'Number of locked sessions is over {$ORACLE.SESSIONS.LOCK.MAX.WARN}% of the running sessions.'
-        -
-          uuid: e67fc41890a7421cb33aa360276948bc
-          name: 'Oracle: Sessions locked over {$ORACLE.SESSION.LOCK.MAX.TIME}s'
+              description: "Number of locked sessions is over {$ORACLE.SESSIONS.LOCK.MAX.WARN}% of the running sessions."
+        - uuid: e67fc41890a7421cb33aa360276948bc
+          name: "Oracle: Sessions locked over {$ORACLE.SESSION.LOCK.MAX.TIME}s"
           type: DEPENDENT
           key: oracle.session_long_time_locked
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'Count of the prolongely locked sessions. (You can change maximum session lock duration in seconds for query by {$ORACLE.SESSION.LOCK.MAX.TIME} macro. Default 600 sec)'
+          description: "Count of the prolongely locked sessions. (You can change maximum session lock duration in seconds for query by {$ORACLE.SESSION.LOCK.MAX.TIME} macro. Default 600 sec)"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.long_time_locked
           master_item:
             key: 'goracle.sessions.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}","{$ORACLE.SESSION.LOCK.MAX.TIME}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
           triggers:
-            -
-              uuid: 766c093ede1444d888732824c9ac1b82
-              expression: 'min(/Template DB Oracle by Goracle plugin/oracle.session_long_time_locked,5m) > {$ORACLE.SESSION.LONG.LOCK.MAX.WARN}'
-              name: 'Oracle: Too many sessions locked over {$ORACLE.SESSION.LOCK.MAX.TIME}s (over {$ORACLE.SESSION.LONG.LOCK.MAX.WARN} for 5 min)'
+            - uuid: 766c093ede1444d888732824c9ac1b82
+              expression: "min(/Template DB Oracle by Goracle plugin/oracle.session_long_time_locked,5m) > {$ORACLE.SESSION.LONG.LOCK.MAX.WARN}"
+              name: "Oracle: Too many sessions locked over {$ORACLE.SESSION.LOCK.MAX.TIME}s (over {$ORACLE.SESSION.LONG.LOCK.MAX.WARN} for 5 min)"
               priority: WARNING
-              description: 'Number of sessions locked over {$ORACLE.SESSION.LOCK.MAX.TIME} seconds is too high. Long-term locks can negatively affect database performance, therefore, if they are detected, you should first find the most difficult queries from the database point of view and analyze possible resource leaks.'
-        -
-          uuid: 6a6ee21aa54d4e059efc679b410ca51f
-          name: 'Oracle: SGA, buffer cache'
+              description: "Number of sessions locked over {$ORACLE.SESSION.LOCK.MAX.TIME} seconds is too high. Long-term locks can negatively affect database performance, therefore, if they are detected, you should first find the most difficult queries from the database point of view and analyze possible resource leaks."
+        - uuid: 6a6ee21aa54d4e059efc679b410ca51f
+          name: "Oracle: SGA, buffer cache"
           type: DEPENDENT
           key: oracle.sga_buffer_cache
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'The size of the cache of standard blocks.'
+          description: "The size of the cache of standard blocks."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.buffer_cache
           master_item:
             key: 'goracle.sga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 78fcb5c69a9c4a9bb58f547ec74a0d86
-          name: 'Oracle: SGA, fixed'
+        - uuid: 78fcb5c69a9c4a9bb58f547ec74a0d86
+          name: "Oracle: SGA, fixed"
           type: DEPENDENT
           key: oracle.sga_fixed
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'The fixed SGA is an internal housekeeping area.'
+          description: "The fixed SGA is an internal housekeeping area."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.fixed_sga
           master_item:
             key: 'goracle.sga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 0493f90498dc4e54bd70a7210aa0487f
-          name: 'Oracle: SGA, java pool'
+        - uuid: 0493f90498dc4e54bd70a7210aa0487f
+          name: "Oracle: SGA, java pool"
           type: DEPENDENT
           key: oracle.sga_java_pool
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Memory is allocated from the java pool.'
+          description: "Memory is allocated from the java pool."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.java_pool
           master_item:
             key: 'goracle.sga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 73eaf62e69914549840b2b5a3d881a3e
-          name: 'Oracle: SGA, large pool'
+        - uuid: 73eaf62e69914549840b2b5a3d881a3e
+          name: "Oracle: SGA, large pool"
           type: DEPENDENT
           key: oracle.sga_large_pool
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Memory is allocated from the large pool.'
+          description: "Memory is allocated from the large pool."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.large_pool
           master_item:
             key: 'goracle.sga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 7effd4ee70ea40b4886d2b34b44245de
-          name: 'Oracle: SGA, log buffer'
+        - uuid: 7effd4ee70ea40b4886d2b34b44245de
+          name: "Oracle: SGA, log buffer"
           type: DEPENDENT
           key: oracle.sga_log_buffer
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'The number of bytes allocated for the redo log buffer.'
+          description: "The number of bytes allocated for the redo log buffer."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.log_buffer
           master_item:
             key: 'goracle.sga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 8fa66d349439433e84ffdf8d25af4e96
-          name: 'Oracle: SGA, shared pool'
+        - uuid: 8fa66d349439433e84ffdf8d25af4e96
+          name: "Oracle: SGA, shared pool"
           type: DEPENDENT
           key: oracle.sga_shared_pool
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Memory is allocated from the shared pool.'
+          description: "Memory is allocated from the shared pool."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.shared_pool
           master_item:
             key: 'goracle.sga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: fa3081a989724fb6a30c46ce9c6450a7
-          name: 'Oracle: Shared pool free %'
+        - uuid: fa3081a989724fb6a30c46ce9c6450a7
+          name: "Oracle: Shared pool free %"
           type: DEPENDENT
           key: oracle.shared_pool_free
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          units: '%'
-          description: 'Shared pool free memory percent. Free/Total'
+          units: "%"
+          description: "Shared pool free memory percent. Free/Total"
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Shared Pool Free %'']'
+                - "$.['Shared Pool Free %']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
           triggers:
-            -
-              uuid: b914bac238e74bac9ca98f64569c053b
-              expression: 'max(/Template DB Oracle by Goracle plugin/oracle.shared_pool_free,5m)<{$ORACLE.SHARED.FREE.MIN.WARN}'
-              name: 'Oracle: Shared pool free is too low (less {$ORACLE.SHARED.FREE.MIN.WARN}% for 5m)'
+            - uuid: b914bac238e74bac9ca98f64569c053b
+              expression: "max(/Template DB Oracle by Goracle plugin/oracle.shared_pool_free,5m)<{$ORACLE.SHARED.FREE.MIN.WARN}"
+              name: "Oracle: Shared pool free is too low (less {$ORACLE.SHARED.FREE.MIN.WARN}% for 5m)"
               priority: WARNING
-              description: 'The shared pool free memory percent has been less than {$ORACLE.SHARED.FREE.MIN.WARN}% in the last 5 minutes.'
-        -
-          uuid: 1176650f5c5f499bb9f29ff7c0468467
-          name: 'Oracle: Total sorts per user call'
+              description: "The shared pool free memory percent has been less than {$ORACLE.SHARED.FREE.MIN.WARN}% in the last 5 minutes."
+        - uuid: 1176650f5c5f499bb9f29ff7c0468467
+          name: "Oracle: Total sorts per user call"
           type: DEPENDENT
           key: oracle.sorts_per_user_call
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
-          description: 'Total sorts per user call.'
+          description: "Total sorts per user call."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Total Sorts Per User Call'']'
+                - "$.['Total Sorts Per User Call']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: b06b709bb0d544ff81acb2eba5420a7d
-          name: 'Oracle: Temp space used'
+        - uuid: b06b709bb0d544ff81acb2eba5420a7d
+          name: "Oracle: Temp space used"
           type: DEPENDENT
           key: oracle.temp_space_used
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: B
-          description: 'Temp space used.'
+          description: "Temp space used."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''Temp Space Used'']'
+                - "$.['Temp Space Used']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 08fc74764bef48cf99247ccd6fd2b0d7
-          name: 'Oracle: PGA, Total allocated'
+        - uuid: 08fc74764bef48cf99247ccd6fd2b0d7
+          name: "Oracle: PGA, Total allocated"
           type: DEPENDENT
           key: oracle.total_pga_allocated
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Current amount of PGA memory allocated by the instance. The Oracle Database attempts to keep this number below the value of the PGA_AGGREGATE_TARGET initialization parameter. However, it is possible for the PGA allocated to exceed that value by a small percentage and for a short period of time when the work area workload is increasing very rapidly or when PGA_AGGREGATE_TARGET is set to a small value.'
+          description: "Current amount of PGA memory allocated by the instance. The Oracle Database attempts to keep this number below the value of the PGA_AGGREGATE_TARGET initialization parameter. However, it is possible for the PGA allocated to exceed that value by a small percentage and for a short period of time when the work area workload is increasing very rapidly or when PGA_AGGREGATE_TARGET is set to a small value."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''total PGA allocated'']'
+                - "$.['total PGA allocated']"
           master_item:
             key: 'goracle.pga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: ea6f1784212c43dbb153696f2fa8b177
-          name: 'Oracle: PGA, Total freeable'
+        - uuid: ea6f1784212c43dbb153696f2fa8b177
+          name: "Oracle: PGA, Total freeable"
           type: DEPENDENT
           key: oracle.total_pga_freeable
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Number of bytes of PGA memory in all processes that could be freed back to the operating system.'
+          description: "Number of bytes of PGA memory in all processes that could be freed back to the operating system."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''total freeable PGA memory'']'
+                - "$.['total freeable PGA memory']"
           master_item:
             key: 'goracle.pga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: bfe42ec7e7984a108a23b1b08ae2c7cb
-          name: 'Oracle: PGA, Total inuse'
+        - uuid: bfe42ec7e7984a108a23b1b08ae2c7cb
+          name: "Oracle: PGA, Total inuse"
           type: DEPENDENT
           key: oracle.total_pga_used
-          delay: '0'
+          delay: "0"
           history: 7d
           units: B
-          description: 'Indicates how much PGA memory is currently consumed by work areas. This number can be used to determine how much memory is consumed by other consumers of the PGA memory (for example, PL/SQL or Java).'
+          description: "Indicates how much PGA memory is currently consumed by work areas. This number can be used to determine how much memory is consumed by other consumers of the PGA memory (for example, PL/SQL or Java)."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''total PGA inuse'']'
+                - "$.['total PGA inuse']"
           master_item:
             key: 'goracle.pga.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 28b7c364bdb844918a7dec88df7a0061
-          name: 'Oracle: Uptime'
+        - uuid: 28b7c364bdb844918a7dec88df7a0061
+          name: "Oracle: Uptime"
           type: DEPENDENT
           key: oracle.uptime
-          delay: '0'
+          delay: "0"
           history: 7d
           trends: 0d
           units: s
-          description: 'Oracle instance uptime in seconds.'
+          description: "Oracle instance uptime in seconds."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.uptime
           master_item:
             key: 'goracle.instance.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
           triggers:
-            -
-              uuid: 2fdf02e5a7f04f2aaf7b5c0fd77f787b
-              expression: 'nodata(/Template DB Oracle by Goracle plugin/oracle.uptime,30m)=1'
-              name: 'Oracle: Failed to fetch info data (or no data for 30m)'
+            - uuid: 2fdf02e5a7f04f2aaf7b5c0fd77f787b
+              expression: "nodata(/Template DB Oracle by Goracle plugin/oracle.uptime,30m)=1"
+              name: "Oracle: Failed to fetch info data (or no data for 30m)"
               priority: INFO
-              description: 'Zabbix has not received data for items for the last 5 minutes. The database might be unavailable for connecting.'
-            -
-              uuid: ab4bd9dd0ad1425a92155fbdc09a9224
-              expression: 'last(/Template DB Oracle by Goracle plugin/oracle.uptime)<10m'
-              name: 'Oracle: has been restarted (uptime < 10m)'
+              description: "Zabbix has not received data for items for the last 5 minutes. The database might be unavailable for connecting."
+            - uuid: ab4bd9dd0ad1425a92155fbdc09a9224
+              expression: "last(/Template DB Oracle by Goracle plugin/oracle.uptime)<10m"
+              name: "Oracle: has been restarted (uptime < 10m)"
               priority: INFO
-              description: 'Uptime is less than 10 minutes'
-              manual_close: 'YES'
-        -
-          uuid: 34334dad347445b384389ed4cf851a24
-          name: 'Oracle: User''s expire password'
-          key: 'oracle.user.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-          history: 7d
-          value_type: FLOAT
-          units: days
-          description: 'The number of days before zabbix account password expired.'
-          preprocessing:
-            -
-              type: JSONPATH
-              parameters:
-                - $.exp_passwd_days_before
-          tags:
-            -
-              tag: Application
-              value: Oracle
-          triggers:
-            -
-              uuid: fc3b92b1d5a74b05a6024be21409a063
-              expression: 'last(/Template DB Oracle by Goracle plugin/oracle.user.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"])  < {$ORACLE.EXPIRE.PASSWORD.MIN.WARN}'
-              name: 'Oracle: Zabbix account will expire soon (under {$ORACLE.EXPIRE.PASSWORD.MIN.WARN} days)'
-              priority: WARNING
-              description: 'Password for zabbix user in the database will expire soon.'
-        -
-          uuid: bf093aa674d74b388fb9152abf123dc1
-          name: 'Oracle: User rollbacks per second'
+              description: "Uptime is less than 10 minutes"
+              manual_close: "YES"
+        - uuid: bf093aa674d74b388fb9152abf123dc1
+          name: "Oracle: User rollbacks per second"
           type: DEPENDENT
           key: oracle.user_rollbacks_rate
-          delay: '0'
+          delay: "0"
           history: 7d
           value_type: FLOAT
           units: Rps
-          description: 'The number of times that users manually issue the ROLLBACK statement or an error occurred during a user''s transactions.'
+          description: "The number of times that users manually issue the ROLLBACK statement or an error occurred during a user's transactions."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
-                - '$.[''User Rollbacks Per Sec'']'
+                - "$.['User Rollbacks Per Sec']"
           master_item:
             key: 'goracle.sys.metrics["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
-        -
-          uuid: 41e935ed7b8f4feb93678a44533524c5
-          name: 'Oracle: Version'
+        - uuid: 41e935ed7b8f4feb93678a44533524c5
+          name: "Oracle: Version"
           type: DEPENDENT
           key: oracle.version
-          delay: '0'
+          delay: "0"
           history: 7d
-          trends: '0'
+          trends: "0"
           value_type: CHAR
-          description: 'Oracle Server version.'
+          description: "Oracle Server version."
           preprocessing:
-            -
-              type: JSONPATH
+            - type: JSONPATH
               parameters:
                 - $.version
-            -
-              type: DISCARD_UNCHANGED_HEARTBEAT
+            - type: DISCARD_UNCHANGED_HEARTBEAT
               parameters:
                 - 1d
           master_item:
             key: 'goracle.instance.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           tags:
-            -
-              tag: Application
+            - tag: Application
               value: Oracle
           triggers:
-            -
-              uuid: d161d52284a14f2bb40a08e97105d26b
-              expression: '(last(/Template DB Oracle by Goracle plugin/oracle.version,#1)<>last(/Template DB Oracle by Goracle plugin/oracle.version,#2))=1 and length(last(/Template DB Oracle by Goracle plugin/oracle.version))>0'
-              name: 'Oracle: Version has changed (new version value received: {ITEM.VALUE})'
+            - uuid: d161d52284a14f2bb40a08e97105d26b
+              expression: "(last(/Template DB Oracle by Goracle plugin/oracle.version,#1)<>last(/Template DB Oracle by Goracle plugin/oracle.version,#2))=1 and length(last(/Template DB Oracle by Goracle plugin/oracle.version))>0"
+              name: "Oracle: Version has changed (new version value received: {ITEM.VALUE})"
               priority: INFO
-              description: 'Oracle DB version has changed. Ack to close.'
-              manual_close: 'YES'
+              description: "Oracle DB version has changed. Ack to close."
+              manual_close: "YES"
       discovery_rules:
-        -
-          uuid: 75cdc6cbccd049f396a78aac76beb209
-          name: 'Archive log discovery'
+        - uuid: 75cdc6cbccd049f396a78aac76beb209
+          name: "Archive log discovery"
           key: 'goracle.archive.discovery["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           delay: 1h
-          description: 'Log archive destinations.'
+          description: "Log archive destinations."
           item_prototypes:
-            -
-              uuid: 5a7f72d3f44f4d2191f3adcaa5936d8f
-              name: 'Archivelog ''{#DEST_NAME}'': Error'
+            - uuid: 5a7f72d3f44f4d2191f3adcaa5936d8f
+              name: "Archivelog '{#DEST_NAME}': Error"
               type: DEPENDENT
               key: 'oracle.archivelog_error["{#DEST_NAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
-              trends: '0'
+              trends: "0"
               value_type: TEXT
-              description: 'Displays the error text'
+              description: "Displays the error text"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..[''{#DEST_NAME}''].log_sequence.first()'
+                    - "$..['{#DEST_NAME}'].log_sequence.first()"
               master_item:
                 key: 'goracle.archive.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle Archivelog'
-            -
-              uuid: bdc87d8472744e819c47f374680382a8
-              name: 'Archivelog ''{#DEST_NAME}'': Last sequence'
+                - tag: Application
+                  value: "Oracle Archivelog"
+            - uuid: bdc87d8472744e819c47f374680382a8
+              name: "Archivelog '{#DEST_NAME}': Last sequence"
               type: DEPENDENT
               key: 'oracle.archivelog_log_sequence["{#DEST_NAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
-              description: 'Identifies the sequence number of the last archived redo log to be archived'
+              description: "Identifies the sequence number of the last archived redo log to be archived"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..[''{#DEST_NAME}''].log_sequence.first()'
+                    - "$..['{#DEST_NAME}'].log_sequence.first()"
               master_item:
                 key: 'goracle.archive.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle Archivelog'
-            -
-              uuid: c7ae49353780418898523269f1a70f67
-              name: 'Archivelog ''{#DEST_NAME}'': Status'
+                - tag: Application
+                  value: "Oracle Archivelog"
+            - uuid: c7ae49353780418898523269f1a70f67
+              name: "Archivelog '{#DEST_NAME}': Status"
               type: DEPENDENT
               key: 'oracle.archivelog_log_status["{#DEST_NAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
-              description: 'Identifies the current status of the destination: 1 - ''Valid'', 2 - ''Dederred'',3 - ''Error'', 0 - ''Unknown'''
+              description: "Identifies the current status of the destination: 1 - 'Valid', 2 - 'Dederred',3 - 'Error', 0 - 'Unknown'"
               valuemap:
-                name: 'Oracle Archivelog status'
+                name: "Oracle Archivelog status"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..[''{#DEST_NAME}''].log_sequence.first()'
+                    - "$..['{#DEST_NAME}'].log_sequence.first()"
               master_item:
                 key: 'goracle.archive.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle Archivelog'
+                - tag: Application
+                  value: "Oracle Archivelog"
               trigger_prototypes:
-                -
-                  uuid: c5f091731dc348ddbb9d39ab2d005496
+                - uuid: c5f091731dc348ddbb9d39ab2d005496
                   expression: 'last(/Template DB Oracle by Goracle plugin/oracle.archivelog_log_status["{#DEST_NAME}"])<2'
-                  name: 'Archivelog ''{#DEST_NAME}'': Log Archive is not valid'
+                  name: "Archivelog '{#DEST_NAME}': Log Archive is not valid"
                   priority: HIGH
-                  description: 'ARL destination not in 3 - Valid or 2 - Deferred.'
-        -
-          uuid: c8e01d75c2ba43b28bca4fe5716184e0
-          name: 'Database discovery'
+                  description: "ARL destination not in 3 - Valid or 2 - Deferred."
+        - uuid: c8e01d75c2ba43b28bca4fe5716184e0
+          name: "Database discovery"
           key: 'goracle.db.discovery["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           delay: 1h
           filter:
             evaltype: AND
             conditions:
-              -
-                macro: '{#DBNAME}'
-                value: '{$ORACLE.DBNAME.MATCHES}'
+              - macro: "{#DBNAME}"
+                value: "{$ORACLE.DBNAME.MATCHES}"
                 formulaid: A
-              -
-                macro: '{#DBNAME}'
-                value: '{$ORACLE.DBNAME.NOT_MATCHES}'
+              - macro: "{#DBNAME}"
+                value: "{$ORACLE.DBNAME.NOT_MATCHES}"
                 operator: NOT_MATCHES_REGEX
                 formulaid: B
-          description: 'Scanning databases in DBMS.'
+          description: "Scanning databases in DBMS."
           item_prototypes:
-            -
-              uuid: 29afaadd678b424bb585a80c631d0806
-              name: 'Oracle Database ''{#DBNAME}'': Force logging'
+            - uuid: 29afaadd678b424bb585a80c631d0806
+              name: "Oracle Database '{#DBNAME}': Force logging"
               type: DEPENDENT
               key: 'oracle.db_force_logging["{#DBNAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
-              description: 'Indicates whether the database is under force logging mode (YES) or not (NO)'
+              description: "Indicates whether the database is under force logging mode (YES) or not (NO)"
               valuemap:
-                name: 'Oracle force log status'
+                name: "Oracle force log status"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#DBNAME}.force_logging.first()'
-                -
-                  type: DISCARD_UNCHANGED_HEARTBEAT
+                    - "$..{#DBNAME}.force_logging.first()"
+                - type: DISCARD_UNCHANGED_HEARTBEAT
                   parameters:
                     - 15m
               master_item:
                 key: 'goracle.cdb.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#TYPE}'
-            -
-              uuid: 188b4104a8544682aa4c2dc65a446e03
-              name: 'Oracle Database ''{#DBNAME}'': Log mode'
+                - tag: Application
+                  value: "Oracle {#TYPE}"
+            - uuid: 188b4104a8544682aa4c2dc65a446e03
+              name: "Oracle Database '{#DBNAME}': Log mode"
               type: DEPENDENT
               key: 'oracle.db_log_mode["{#DBNAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
-              description: 'Archive log mode, 0 - ''NOARCHIVELOG'', 1 - ''ARCHIVELOG'', 2 - ''MANUAL'''
+              description: "Archive log mode, 0 - 'NOARCHIVELOG', 1 - 'ARCHIVELOG', 2 - 'MANUAL'"
               valuemap:
-                name: 'Oracle log mode'
+                name: "Oracle log mode"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#DBNAME}.log_mode.first()'
-                -
-                  type: DISCARD_UNCHANGED_HEARTBEAT
+                    - "$..{#DBNAME}.log_mode.first()"
+                - type: DISCARD_UNCHANGED_HEARTBEAT
                   parameters:
                     - 15m
               master_item:
                 key: 'goracle.cdb.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-              tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#TYPE}'
-            -
-              uuid: 2bbc6020281c4d0c824eb829d3abb9e7
-              name: 'Oracle Database ''{#DBNAME}'': Open status'
+            - uuid: 2bbc6020281c4d0c824eb829d3abb9e7
+              name: "Oracle Database '{#DBNAME}': Open status"
               type: DEPENDENT
               key: 'oracle.db_open_mode["{#DBNAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
-              description: '1 - ''MOUNTED'', 2 - ''READ WRITE'', 3 - ''READ ONLY'', 4 - ''READ ONLY WITH APPLY'' (A physical standby database is open in real-time query mode)'
+              description: "1 - 'MOUNTED', 2 - 'READ WRITE', 3 - 'READ ONLY', 4 - 'READ ONLY WITH APPLY' (A physical standby database is open in real-time query mode)"
               valuemap:
-                name: 'Oracle DB open status'
+                name: "Oracle DB open status"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#DBNAME}.open_mode.first()'
-                -
-                  type: DISCARD_UNCHANGED_HEARTBEAT
+                    - "$..{#DBNAME}.open_mode.first()"
+                - type: DISCARD_UNCHANGED_HEARTBEAT
                   parameters:
                     - 15m
               master_item:
                 key: 'goracle.cdb.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#TYPE}'
+                - tag: Application
+                  value: "Oracle {#TYPE}"
               trigger_prototypes:
-                -
-                  uuid: fb95b9fda7d34409b286328abb2380ae
+                - uuid: fb95b9fda7d34409b286328abb2380ae
                   expression: '(last(/Template DB Oracle by Goracle plugin/oracle.db_open_mode["{#DBNAME}"],#1)<>last(/Template DB Oracle by Goracle plugin/oracle.db_open_mode["{#DBNAME}"],#2))=1'
-                  name: 'Oracle Database ''{#DBNAME}'': Open status has changed (new value received: {ITEM.VALUE})'
+                  name: "Oracle Database '{#DBNAME}': Open status has changed (new value received: {ITEM.VALUE})"
                   priority: INFO
-                  description: 'Oracle DB open status has changed. Ack to close.'
+                  description: "Oracle DB open status has changed. Ack to close."
                   dependencies:
-                    -
-                      name: 'Oracle Database ''{#DBNAME}'': Open status in mount mode'
+                    - name: "Oracle Database '{#DBNAME}': Open status in mount mode"
                       expression: 'last(/Template DB Oracle by Goracle plugin/oracle.db_open_mode["{#DBNAME}"])=1'
-                -
-                  uuid: 3bd5f263a2334c58b534a92bf0bd071c
+                - uuid: 3bd5f263a2334c58b534a92bf0bd071c
                   expression: 'last(/Template DB Oracle by Goracle plugin/oracle.db_open_mode["{#DBNAME}"])=1'
-                  name: 'Oracle Database ''{#DBNAME}'': Open status in mount mode'
+                  name: "Oracle Database '{#DBNAME}': Open status in mount mode"
                   priority: WARNING
-                  description: 'The Oracle DB has a MOUNTED state.'
-            -
-              uuid: 91b3df024cc54dcfb18c76d3ceb8cef6
-              name: 'Oracle Database ''{#DBNAME}'': Role'
+                  description: "The Oracle DB has a MOUNTED state."
+            - uuid: 91b3df024cc54dcfb18c76d3ceb8cef6
+              name: "Oracle Database '{#DBNAME}': Role"
               type: DEPENDENT
               key: 'oracle.db_role["{#DBNAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
-              description: 'Current role of the database, 1 - ''SNAPSHOT STANDBY'', 2 - ''LOGICAL STANDBY'', 3 - ''PHYSICAL STANDBY'', 4 - ''PRIMARY '', 5 -''FAR SYNC'''
+              description: "Current role of the database, 1 - 'SNAPSHOT STANDBY', 2 - 'LOGICAL STANDBY', 3 - 'PHYSICAL STANDBY', 4 - 'PRIMARY ', 5 -'FAR SYNC'"
               valuemap:
-                name: 'Oracle DB role'
+                name: "Oracle DB role"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#DBNAME}.role.first()'
-                -
-                  type: DISCARD_UNCHANGED_HEARTBEAT
+                    - "$..{#DBNAME}.role.first()"
+                - type: DISCARD_UNCHANGED_HEARTBEAT
                   parameters:
                     - 15m
               master_item:
                 key: 'goracle.cdb.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#TYPE}'
+                - tag: Application
+                  value: "Oracle {#TYPE}"
               trigger_prototypes:
-                -
-                  uuid: 0616311b45bb4954b5ffbe1835dd30bd
+                - uuid: 0616311b45bb4954b5ffbe1835dd30bd
                   expression: '(last(/Template DB Oracle by Goracle plugin/oracle.db_role["{#DBNAME}"],#1)<>last(/Template DB Oracle by Goracle plugin/oracle.db_role["{#DBNAME}"],#2))=1'
-                  name: 'Oracle Database ''{#DBNAME}'': Role has changed (new value received: {ITEM.VALUE})'
+                  name: "Oracle Database '{#DBNAME}': Role has changed (new value received: {ITEM.VALUE})"
                   priority: INFO
-                  description: 'Oracle DB role has changed. Ack to close.'
+                  description: "Oracle DB role has changed. Ack to close."
           trigger_prototypes:
-            -
-              uuid: 2e8ae5bc79f44fb3af3357c032924ad4
+            - uuid: 2e8ae5bc79f44fb3af3357c032924ad4
               expression: 'last(/Template DB Oracle by Goracle plugin/oracle.db_force_logging["{#DBNAME}"]) = 0 and last(/Template DB Oracle by Goracle plugin/oracle.db_log_mode["{#DBNAME}"]) = 1'
-              name: 'Oracle Database ''{#DBNAME}'': Force logging is deactivated for DB with active Archivelog'
+              name: "Oracle Database '{#DBNAME}': Force logging is deactivated for DB with active Archivelog"
               priority: WARNING
-              description: 'Force Logging mode  - it is very important metric for Databases in ''ARCHIVELOG''. This feature allows to forcibly write all transactions to the REDO.'
-        -
-          uuid: ba24f0e173ce402c8696138b8ad9d781
-          name: 'ASM disk groups discovery'
+              description: "Force Logging mode  - it is very important metric for Databases in 'ARCHIVELOG'. This feature allows to forcibly write all transactions to the REDO."
+        - uuid: ba24f0e173ce402c8696138b8ad9d781
+          name: "ASM disk groups discovery"
           key: 'goracle.diskgroups.discovery["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           delay: 1h
-          description: 'ASM disk groups'
+          description: "ASM disk groups"
           item_prototypes:
-            -
-              uuid: df4d5de3ef124e2e8a2c80cf335582a7
-              name: 'ASM ''{#DG_NAME}'': Free size'
+            - uuid: df4d5de3ef124e2e8a2c80cf335582a7
+              name: "ASM '{#DG_NAME}': Free size"
               type: DEPENDENT
               key: 'oracle.asm_free_size["{#DG_NAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
               units: B
-              description: 'Free size of ASM disk group.'
+              description: "Free size of ASM disk group."
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..[''{#DG_NAME}''].free_size_byte.first()'
+                    - "$..['{#DG_NAME}'].free_size_byte.first()"
               master_item:
                 key: 'goracle.diskgroups.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle ASM'
-            -
-              uuid: f6c1d1d15b3b4867bb46ccc959d9e2ee
-              name: 'ASM ''{#DG_NAME}'': Total size'
+                - tag: Application
+                  value: "Oracle ASM"
+            - uuid: f6c1d1d15b3b4867bb46ccc959d9e2ee
+              name: "ASM '{#DG_NAME}': Total size"
               type: DEPENDENT
               key: 'oracle.asm_total_size["{#DG_NAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
               units: B
-              description: 'Total size of ASM disk group.'
+              description: "Total size of ASM disk group."
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..[''{#DG_NAME}''].size_byte.first()'
+                    - "$..['{#DG_NAME}'].size_byte.first()"
               master_item:
                 key: 'goracle.diskgroups.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle ASM'
-            -
-              uuid: 7f256259524b440c8ef0c86b5cc68690
-              name: 'ASM ''{#DG_NAME}'': Free size'
+                - tag: Application
+                  value: "Oracle ASM"
+            - uuid: 7f256259524b440c8ef0c86b5cc68690
+              name: "ASM '{#DG_NAME}': Free size"
               type: DEPENDENT
               key: 'oracle.asm_used_pct["{#DG_NAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
               value_type: FLOAT
-              units: '%'
-              description: 'Usage percent of ASM disk group.'
+              units: "%"
+              description: "Usage percent of ASM disk group."
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..[''{#DG_NAME}''].used_percent.first()'
+                    - "$..['{#DG_NAME}'].used_percent.first()"
               master_item:
                 key: 'goracle.diskgroups.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle ASM'
+                - tag: Application
+                  value: "Oracle ASM"
               trigger_prototypes:
-                -
-                  uuid: fb8942fc0bb74f6bae382008d3082512
+                - uuid: fb8942fc0bb74f6bae382008d3082512
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.asm_used_pct["{#DG_NAME}"],5m)>{$ORACLE.ASM.USED.PCT.MAX.HIGH}'
-                  name: 'ASM ''{#DG_NAME}'': Disk group usage is too high (over {$ORACLE.ASM.USED.PCT.MAX.HIGH}% for 5m)'
+                  name: "ASM '{#DG_NAME}': Disk group usage is too high (over {$ORACLE.ASM.USED.PCT.MAX.HIGH}% for 5m)"
                   priority: HIGH
-                  description: 'Usage percent of ASM disk group is over {$ORACLE.ASM.USED.PCT.MAX.WARN}'
-                -
-                  uuid: 1d660a77a63f4dfc967b3e1d61871efe
+                  description: "Usage percent of ASM disk group is over {$ORACLE.ASM.USED.PCT.MAX.WARN}"
+                - uuid: 1d660a77a63f4dfc967b3e1d61871efe
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.asm_used_pct["{#DG_NAME}"],5m)>{$ORACLE.ASM.USED.PCT.MAX.WARN}'
-                  name: 'ASM ''{#DG_NAME}'': Disk group usage is too high (over {$ORACLE.ASM.USED.PCT.MAX.WARN}% for 5m)'
+                  name: "ASM '{#DG_NAME}': Disk group usage is too high (over {$ORACLE.ASM.USED.PCT.MAX.WARN}% for 5m)"
                   priority: WARNING
-                  description: 'Usage percent of ASM disk group is over {$ORACLE.ASM.USED.PCT.MAX.WARN}'
+                  description: "Usage percent of ASM disk group is over {$ORACLE.ASM.USED.PCT.MAX.WARN}"
                   dependencies:
-                    -
-                      name: 'ASM ''{#DG_NAME}'': Disk group usage is too high (over {$ORACLE.ASM.USED.PCT.MAX.HIGH}% for 5m)'
+                    - name: "ASM '{#DG_NAME}': Disk group usage is too high (over {$ORACLE.ASM.USED.PCT.MAX.HIGH}% for 5m)"
                       expression: 'min(/Template DB Oracle by Goracle plugin/oracle.asm_used_pct["{#DG_NAME}"],5m)>{$ORACLE.ASM.USED.PCT.MAX.HIGH}'
           graph_prototypes:
-            -
-              uuid: 092d26a1122a4c9a97790821936e5a44
-              name: 'ASM ''{#DG_NAME}'': ASM disk group ''{#DG_NAME}'''
+            - uuid: 092d26a1122a4c9a97790821936e5a44
+              name: "ASM '{#DG_NAME}': ASM disk group '{#DG_NAME}'"
               graph_items:
-                -
-                  color: 1A7C11
+                - color: 1A7C11
                   item:
-                    host: 'Template DB Oracle by Goracle plugin'
+                    host: "Template DB Oracle by Goracle plugin"
                     key: 'oracle.asm_free_size["{#DG_NAME}"]'
-                -
-                  sortorder: '1'
+                - sortorder: "1"
                   color: 2774A4
                   item:
-                    host: 'Template DB Oracle by Goracle plugin'
+                    host: "Template DB Oracle by Goracle plugin"
                     key: 'oracle.asm_total_size["{#DG_NAME}"]'
-        -
-          uuid: a7c646c7db074df5baf91b1b72316678
-          name: 'PDB discovery'
+        - uuid: a7c646c7db074df5baf91b1b72316678
+          name: "PDB discovery"
           key: 'goracle.pdb.discovery["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           delay: 1h
           filter:
             evaltype: AND
             conditions:
-              -
-                macro: '{#DBNAME}'
-                value: '{$ORACLE.DBNAME.MATCHES}'
+              - macro: "{#DBNAME}"
+                value: "{$ORACLE.DBNAME.MATCHES}"
                 formulaid: A
-              -
-                macro: '{#DBNAME}'
-                value: '{$ORACLE.DBNAME.NOT_MATCHES}'
+              - macro: "{#DBNAME}"
+                value: "{$ORACLE.DBNAME.NOT_MATCHES}"
                 operator: NOT_MATCHES_REGEX
                 formulaid: B
-          description: 'Scanning PDB in DBMS.'
+          description: "Scanning PDB in DBMS."
           item_prototypes:
-            -
-              uuid: e46cef2067034196bdb4b507c8a8eda8
-              name: 'Oracle Database ''{#DBNAME}'': Open status'
+            - uuid: e46cef2067034196bdb4b507c8a8eda8
+              name: "Oracle Database '{#DBNAME}': Open status"
               type: DEPENDENT
               key: 'oracle.pdb_open_mode["{#DBNAME}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
-              description: '1 - ''MOUNTED'', 2 - ''READ WRITE'', 3 - ''READ ONLY'', 4 - ''READ ONLY WITH APPLY'' (A physical standby database is open in real-time query mode)'
+              description: "1 - 'MOUNTED', 2 - 'READ WRITE', 3 - 'READ ONLY', 4 - 'READ ONLY WITH APPLY' (A physical standby database is open in real-time query mode)"
               valuemap:
-                name: 'Oracle DB open status'
+                name: "Oracle DB open status"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#DBNAME}.open_mode.first()'
-                -
-                  type: DISCARD_UNCHANGED_HEARTBEAT
+                    - "$..{#DBNAME}.open_mode.first()"
+                - type: DISCARD_UNCHANGED_HEARTBEAT
                   parameters:
                     - 15m
               master_item:
                 key: 'goracle.pdb.info["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle PDB'
+                - tag: Application
+                  value: "Oracle PDB"
               trigger_prototypes:
-                -
-                  uuid: 7a108155267a448594715a4de1606af1
+                - uuid: 7a108155267a448594715a4de1606af1
                   expression: '(last(/Template DB Oracle by Goracle plugin/oracle.pdb_open_mode["{#DBNAME}"],#1)<>last(/Template DB Oracle by Goracle plugin/oracle.pdb_open_mode["{#DBNAME}"],#2))=1'
-                  name: 'Oracle Database ''{#DBNAME}'': Open status has changed (new value received: {ITEM.VALUE})'
+                  name: "Oracle Database '{#DBNAME}': Open status has changed (new value received: {ITEM.VALUE})"
                   priority: INFO
-                  description: 'Oracle DB open status has changed. Ack to close.'
-                -
-                  uuid: 67a451e645674bf4ae40c41ae4feb4f8
+                  description: "Oracle DB open status has changed. Ack to close."
+                - uuid: 67a451e645674bf4ae40c41ae4feb4f8
                   expression: 'last(/Template DB Oracle by Goracle plugin/oracle.pdb_open_mode["{#DBNAME}"])=1'
-                  name: 'Oracle Database ''{#DBNAME}'': Open status in mount mode'
+                  name: "Oracle Database '{#DBNAME}': Open status in mount mode"
                   priority: WARNING
-                  description: 'The Oracle DB has a MOUNTED state.'
-        -
-          uuid: b725da77cb5740c0bbdc1ec396d0fc32
-          name: 'Tablespace discovery'
+                  description: "The Oracle DB has a MOUNTED state."
+        - uuid: b725da77cb5740c0bbdc1ec396d0fc32
+          name: "Tablespace discovery"
           key: 'goracle.ts.discovery["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
           delay: 1h
           filter:
             evaltype: AND
             conditions:
-              -
-                macro: '{#TABLESPACE}'
-                value: '{$ORACLE.TABLESPACE.NAME.MATCHES}'
+              - macro: "{#TABLESPACE}"
+                value: "{$ORACLE.TABLESPACE.NAME.MATCHES}"
                 formulaid: A
-              -
-                macro: '{#TABLESPACE}'
-                value: '{$ORACLE.TABLESPACE.NAME.NOT_MATCHES}'
+              - macro: "{#TABLESPACE}"
+                value: "{$ORACLE.TABLESPACE.NAME.NOT_MATCHES}"
                 operator: NOT_MATCHES_REGEX
                 formulaid: B
-          description: 'Scanning tablespaces in DBMS.'
+          description: "Scanning tablespaces in DBMS."
           item_prototypes:
-            -
-              uuid: 4a3697ae23ac4aa28865eab5f8cb9844
-              name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace allocated, bytes'
+            - uuid: 4a3697ae23ac4aa28865eab5f8cb9844
+              name: "Oracle TBS '{#TABLESPACE}': Tablespace allocated, bytes"
               type: DEPENDENT
               key: 'oracle.tbs_alloc_bytes["{#TABLESPACE}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
               units: B
-              description: 'Currently allocated bytes for tablespace (sum of the current size of datafiles).'
+              description: "Currently allocated bytes for tablespace (sum of the current size of datafiles)."
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#TABLESPACE}.file_bytes.first()'
+                    - "$..{#TABLESPACE}.file_bytes.first()"
               master_item:
                 key: 'goracle.ts.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}'
-            -
-              uuid: 3d16072293414db8a348649bd512d456
-              name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace free, bytes'
+                - tag: Application
+                  value: "Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}"
+            - uuid: 3d16072293414db8a348649bd512d456
+              name: "Oracle TBS '{#TABLESPACE}': Tablespace free, bytes"
               type: DEPENDENT
               key: 'oracle.tbs_free_bytes["{#TABLESPACE}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
               units: B
-              description: 'Free bytes of allocated space.'
+              description: "Free bytes of allocated space."
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#TABLESPACE}.free_bytes.first()'
+                    - "$..{#TABLESPACE}.free_bytes.first()"
               master_item:
                 key: 'goracle.ts.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}'
-            -
-              uuid: ee469c072e484f608884081302a7ea9c
-              name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace MAX size, bytes'
+                - tag: Application
+                  value: "Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}"
+            - uuid: ee469c072e484f608884081302a7ea9c
+              name: "Oracle TBS '{#TABLESPACE}': Tablespace MAX size, bytes"
               type: DEPENDENT
               key: 'oracle.tbs_max_bytes["{#TABLESPACE}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
               units: B
-              description: 'Maximum size of tablespace.'
+              description: "Maximum size of tablespace."
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#TABLESPACE}.max_bytes.first()'
+                    - "$..{#TABLESPACE}.max_bytes.first()"
               master_item:
                 key: 'goracle.ts.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}'
-            -
-              uuid: c0ace8f1bf9442eea64b960ada22f709
-              name: 'Oracle TBS ''{#TABLESPACE}'': Open status'
+                - tag: Application
+                  value: "Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}"
+            - uuid: c0ace8f1bf9442eea64b960ada22f709
+              name: "Oracle TBS '{#TABLESPACE}': Open status"
               type: DEPENDENT
               key: 'oracle.tbs_status["{#TABLESPACE}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
-              description: 'Tablespace status. 1 - ''ONLINE'' 2 - ''OFFLINE'' 3- ''READ ONLY'''
+              description: "Tablespace status. 1 - 'ONLINE' 2 - 'OFFLINE' 3- 'READ ONLY'"
               valuemap:
-                name: 'Oracle tablespace status'
+                name: "Oracle tablespace status"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#TABLESPACE}.status.first()'
+                    - "$..{#TABLESPACE}.status.first()"
               master_item:
                 key: 'goracle.ts.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}'
+                - tag: Application
+                  value: "Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}"
               trigger_prototypes:
-                -
-                  uuid: 8b278a17d209448989aed24091f0e927
+                - uuid: 8b278a17d209448989aed24091f0e927
                   expression: '(last(/Template DB Oracle by Goracle plugin/oracle.tbs_status["{#TABLESPACE}"],#1)<>last(/Template DB Oracle by Goracle plugin/oracle.tbs_status["{#TABLESPACE}"],#2))=1'
-                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace status has changed (new value received: {ITEM.VALUE})'
+                  name: "Oracle TBS '{#TABLESPACE}': Tablespace status has changed (new value received: {ITEM.VALUE})"
                   priority: INFO
-                  description: 'Oracle tablespace status has changed. Ack to close.'
+                  description: "Oracle tablespace status has changed. Ack to close."
                   dependencies:
-                    -
-                      name: 'Oracle TBS ''{#TABLESPACE}'': Tablespase is OFFLINE'
+                    - name: "Oracle TBS '{#TABLESPACE}': Tablespase is OFFLINE"
                       expression: 'last(/Template DB Oracle by Goracle plugin/oracle.tbs_status["{#TABLESPACE}"])=2'
-                -
-                  uuid: 6135bf3e450b4f058e2e91861d78bf5e
+                - uuid: 6135bf3e450b4f058e2e91861d78bf5e
                   expression: 'last(/Template DB Oracle by Goracle plugin/oracle.tbs_status["{#TABLESPACE}"])=2'
-                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespase is OFFLINE'
+                  name: "Oracle TBS '{#TABLESPACE}': Tablespase is OFFLINE"
                   priority: WARNING
-                  description: 'The tablespase is in the offline state.'
-            -
-              uuid: b021ddc36bf74e83a2775a5c22d1ee1f
-              name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace used, bytes'
+                  description: "The tablespase is in the offline state."
+            - uuid: b021ddc36bf74e83a2775a5c22d1ee1f
+              name: "Oracle TBS '{#TABLESPACE}': Tablespace used, bytes"
               type: DEPENDENT
               key: 'oracle.tbs_used_bytes["{#TABLESPACE}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
               units: B
-              description: 'Currently used bytes for tablespace (current size of datafiles-free space).'
+              description: "Currently used bytes for tablespace (current size of datafiles-free space)."
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#TABLESPACE}.used_bytes.first()'
+                    - "$..{#TABLESPACE}.used_bytes.first()"
               master_item:
                 key: 'goracle.ts.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}'
-            -
-              uuid: 6dc039f04e104ce88c907b41c2f955bc
-              name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace usage, percent'
+                - tag: Application
+                  value: "Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}"
+            - uuid: 6dc039f04e104ce88c907b41c2f955bc
+              name: "Oracle TBS '{#TABLESPACE}': Tablespace usage, percent"
               type: DEPENDENT
               key: 'oracle.tbs_used_file_pct["{#TABLESPACE}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
               value_type: FLOAT
-              units: '%'
-              description: 'Used bytes/Allocated bytes*100'
+              units: "%"
+              description: "Used bytes/Allocated bytes*100"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#TABLESPACE}.used_file_pct.first()'
+                    - "$..{#TABLESPACE}.used_file_pct.first()"
               master_item:
                 key: 'goracle.ts.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}'
+                - tag: Application
+                  value: "Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}"
               trigger_prototypes:
-                -
-                  uuid: c20563c2d9d94c8f93b6f4a699311ee9
+                - uuid: c20563c2d9d94c8f93b6f4a699311ee9
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_file_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.HIGH}'
-                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.HIGH}% for 5m).'
+                  name: "Oracle TBS '{#TABLESPACE}': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.HIGH}% for 5m)."
                   priority: HIGH
-                -
-                  uuid: e1fe50281aaf4ce09fa854d82129cd1c
+                - uuid: e1fe50281aaf4ce09fa854d82129cd1c
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_file_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.WARN}'
-                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m).'
+                  name: "Oracle TBS '{#TABLESPACE}': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m)."
                   priority: WARNING
                   dependencies:
-                    -
-                      name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.HIGH}% for 5m).'
+                    - name: "Oracle TBS '{#TABLESPACE}': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.HIGH}% for 5m)."
                       expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_file_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.HIGH}'
-            -
-              uuid: dc6d039c67f84ce988103910eece3f4c
-              name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace allocated, percent'
+            - uuid: dc6d039c67f84ce988103910eece3f4c
+              name: "Oracle TBS '{#TABLESPACE}': Tablespace allocated, percent"
               type: DEPENDENT
               key: 'oracle.tbs_used_pct["{#TABLESPACE}"]'
-              delay: '0'
+              delay: "0"
               history: 7d
               value_type: FLOAT
-              units: '%'
-              description: 'Allocated bytes/Max bytes*100'
+              units: "%"
+              description: "Allocated bytes/Max bytes*100"
               preprocessing:
-                -
-                  type: JSONPATH
+                - type: JSONPATH
                   parameters:
-                    - '$..{#TABLESPACE}.used_pct_max.first()'
+                    - "$..{#TABLESPACE}.used_pct_max.first()"
               master_item:
                 key: 'goracle.ts.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
               tags:
-                -
-                  tag: Application
-                  value: 'Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}'
+                - tag: Application
+                  value: "Oracle {#CONTENTS} Tablespaces. {#TABLESPACE}"
               trigger_prototypes:
-                -
-                  uuid: aca38a0769544622bd9a62f6430ba793
+                - uuid: aca38a0769544622bd9a62f6430ba793
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.WARN}'
-                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m).'
+                  name: "Oracle TBS '{#TABLESPACE}': Tablespace utilization is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m)."
                   priority: WARNING
                   dependencies:
-                    -
-                      name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high (over {$ORACLE.TBS.UTIL.PCT.MAX.HIGH}% for 5m).'
+                    - name: "Oracle TBS '{#TABLESPACE}': Tablespace utilization is too high (over {$ORACLE.TBS.UTIL.PCT.MAX.HIGH}% for 5m)."
                       expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
-                -
-                  uuid: d752790c83e8403f88a9597c36047def
+                - uuid: d752790c83e8403f88a9597c36047def
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
-                  name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace utilization is too high (over {$ORACLE.TBS.UTIL.PCT.MAX.HIGH}% for 5m).'
+                  name: "Oracle TBS '{#TABLESPACE}': Tablespace utilization is too high (over {$ORACLE.TBS.UTIL.PCT.MAX.HIGH}% for 5m)."
                   priority: HIGH
           graph_prototypes:
-            -
-              uuid: b090c0ce65384dfd828df6b790975b32
-              name: 'Oracle TBS ''{#TABLESPACE}'': Tablespace ''{#TABLESPACE}'''
+            - uuid: b090c0ce65384dfd828df6b790975b32
+              name: "Oracle TBS '{#TABLESPACE}': Tablespace '{#TABLESPACE}'"
               graph_items:
-                -
-                  color: 1A7C11
+                - color: 1A7C11
                   item:
-                    host: 'Template DB Oracle by Goracle plugin'
+                    host: "Template DB Oracle by Goracle plugin"
                     key: 'oracle.tbs_alloc_bytes["{#TABLESPACE}"]'
-                -
-                  sortorder: '1'
+                - sortorder: "1"
                   color: 2774A4
                   item:
-                    host: 'Template DB Oracle by Goracle plugin'
+                    host: "Template DB Oracle by Goracle plugin"
                     key: 'oracle.tbs_max_bytes["{#TABLESPACE}"]'
-                -
-                  sortorder: '2'
+                - sortorder: "2"
                   color: F63100
                   item:
-                    host: 'Template DB Oracle by Goracle plugin'
+                    host: "Template DB Oracle by Goracle plugin"
                     key: 'oracle.tbs_used_bytes["{#TABLESPACE}"]'
       macros:
-        -
-          macro: '{$ORACLE.ASM.USED.PCT.MAX.HIGH}'
-          value: '95'
-          description: 'Maximum percentage of used ASM disk group for high trigger expression.'
-        -
-          macro: '{$ORACLE.ASM.USED.PCT.MAX.WARN}'
-          value: '90'
-          description: 'Maximum percentage of used ASM disk group for warning trigger expression.'
-        -
-          macro: '{$ORACLE.CONCURRENCY.MAX.WARN}'
-          value: '80'
-          description: 'Maximum percentage of sessions concurrency usage for trigger expression.'
-        -
-          macro: '{$ORACLE.CONNSTRING}'
-          value: 'tcp://localhost:1521'
-        -
-          macro: '{$ORACLE.DB.FILE.MAX.WARN}'
-          value: '80'
-          description: 'Maximum percentage of database files for trigger expression.'
-        -
-          macro: '{$ORACLE.DBNAME.MATCHES}'
-          value: '.*'
-          description: 'This macro is used in database discovery. It can be overridden on the host or linked template level.'
-        -
-          macro: '{$ORACLE.DBNAME.NOT_MATCHES}'
+        - macro: "{$ORACLE.ASM.USED.PCT.MAX.HIGH}"
+          value: "95"
+          description: "Maximum percentage of used ASM disk group for high trigger expression."
+        - macro: "{$ORACLE.ASM.USED.PCT.MAX.WARN}"
+          value: "90"
+          description: "Maximum percentage of used ASM disk group for warning trigger expression."
+        - macro: "{$ORACLE.CONCURRENCY.MAX.WARN}"
+          value: "80"
+          description: "Maximum percentage of sessions concurrency usage for trigger expression."
+        - macro: "{$ORACLE.CONNSTRING}"
+          value: "tcp://localhost:1521"
+        - macro: "{$ORACLE.DB.FILE.MAX.WARN}"
+          value: "80"
+          description: "Maximum percentage of database files for trigger expression."
+        - macro: "{$ORACLE.DBNAME.MATCHES}"
+          value: ".*"
+          description: "This macro is used in database discovery. It can be overridden on the host or linked template level."
+        - macro: "{$ORACLE.DBNAME.NOT_MATCHES}"
           value: PDB\$SEED
-          description: 'This macro is used in database discovery. It can be overridden on a host or linked template level.'
-        -
-          macro: '{$ORACLE.EXPIRE.PASSWORD.MIN.WARN}'
-          value: '7'
-          description: 'Number of days of warning before password expires (for trigger expression).'
-        -
-          macro: '{$ORACLE.PASSWORD}'
+          description: "This macro is used in database discovery. It can be overridden on a host or linked template level."
+        - macro: "{$ORACLE.EXPIRE.PASSWORD.MIN.WARN}"
+          value: "7"
+          description: "Number of days of warning before password expires (for trigger expression)."
+        - macro: "{$ORACLE.PASSWORD}"
           value: zabbix_password
-          description: 'Oracle user password.'
-        -
-          macro: '{$ORACLE.PGA.USE.MAX.WARN}'
-          value: '90'
-          description: 'Maximum percentage of PGA usage alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.PROCESSES.MAX.WARN}'
-          value: '80'
-          description: 'Maximum percentage of active processes alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.REDO.MIN.WARN}'
-          value: '3'
-          description: 'Minimum number of REDO logs alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.SERVICE}'
+          description: "Oracle user password."
+        - macro: "{$ORACLE.PGA.USE.MAX.WARN}"
+          value: "90"
+          description: "Maximum percentage of PGA usage alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.PROCESSES.MAX.WARN}"
+          value: "80"
+          description: "Maximum percentage of active processes alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.REDO.MIN.WARN}"
+          value: "3"
+          description: "Minimum number of REDO logs alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.SERVICE}"
           value: ORA
-          description: 'Oracle Service Name'
-        -
-          macro: '{$ORACLE.SESSION.LOCK.MAX.TIME}'
-          value: '600'
-          description: 'Maximum session lock duration in seconds for count the session as a prolongely locked query.'
-        -
-          macro: '{$ORACLE.SESSION.LONG.LOCK.MAX.WARN}'
-          value: '3'
-          description: 'Maximum number of the prolongely locked sessions alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.SESSIONS.LOCK.MAX.WARN}'
-          value: '20'
-          description: 'Maximum percentage of locked sessions alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.SESSIONS.MAX.WARN}'
-          value: '80'
-          description: 'Maximum percentage of active sessions alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.SHARED.FREE.MIN.WARN}'
-          value: '5'
-          description: 'Minimum percentage of free shared pool alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.TABLESPACE.NAME.MATCHES}'
-          value: '.*'
-          description: 'This macro is used in tablespace discovery. It can be overridden on a host or linked template level.'
-        -
-          macro: '{$ORACLE.TABLESPACE.NAME.NOT_MATCHES}'
+          description: "Oracle Service Name"
+        - macro: "{$ORACLE.SESSION.LOCK.MAX.TIME}"
+          value: "600"
+          description: "Maximum session lock duration in seconds for count the session as a prolongely locked query."
+        - macro: "{$ORACLE.SESSION.LONG.LOCK.MAX.WARN}"
+          value: "3"
+          description: "Maximum number of the prolongely locked sessions alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.SESSIONS.LOCK.MAX.WARN}"
+          value: "20"
+          description: "Maximum percentage of locked sessions alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.SESSIONS.MAX.WARN}"
+          value: "80"
+          description: "Maximum percentage of active sessions alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.SHARED.FREE.MIN.WARN}"
+          value: "5"
+          description: "Minimum percentage of free shared pool alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.TABLESPACE.NAME.MATCHES}"
+          value: ".*"
+          description: "This macro is used in tablespace discovery. It can be overridden on a host or linked template level."
+        - macro: "{$ORACLE.TABLESPACE.NAME.NOT_MATCHES}"
           value: CHANGE_IF_NEEDED
-          description: 'This macro is used in tablespace discovery. It can be overridden on a host or linked template level.'
-        -
-          macro: '{$ORACLE.TBS.USED.PCT.MAX.HIGH}'
-          value: '95'
-          description: 'Maximum percentage of used (Used bytes/Allocated bytes) tablespace high severity alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.TBS.USED.PCT.MAX.WARN}'
-          value: '90'
-          description: 'Maximum percentage of used (Used bytes/Allocated bytes) tablespace warning severity alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
-          value: '90'
-          description: 'Maximum percentage of utilization (Allocated bytes/Max bytes) tablespace high severity alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.TBS.UTIL.PCT.MAX.WARN}'
-          value: '80'
-          description: 'Maximum percentage of utilization (Allocated bytes/Max bytes) tablespace warning severity alert threshold (for trigger expression).'
-        -
-          macro: '{$ORACLE.USER}'
+          description: "This macro is used in tablespace discovery. It can be overridden on a host or linked template level."
+        - macro: "{$ORACLE.TBS.USED.PCT.MAX.HIGH}"
+          value: "95"
+          description: "Maximum percentage of used (Used bytes/Allocated bytes) tablespace high severity alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.TBS.USED.PCT.MAX.WARN}"
+          value: "90"
+          description: "Maximum percentage of used (Used bytes/Allocated bytes) tablespace warning severity alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}"
+          value: "90"
+          description: "Maximum percentage of utilization (Allocated bytes/Max bytes) tablespace high severity alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.TBS.UTIL.PCT.MAX.WARN}"
+          value: "80"
+          description: "Maximum percentage of utilization (Allocated bytes/Max bytes) tablespace warning severity alert threshold (for trigger expression)."
+        - macro: "{$ORACLE.USER}"
           value: zabbix
-          description: 'Oracle username.'
+          description: "Oracle username."
       valuemaps:
-        -
-          uuid: 87785fcbbd9048549803d0a284c378a1
-          name: 'Oracle Archivelog status'
+        - uuid: 87785fcbbd9048549803d0a284c378a1
+          name: "Oracle Archivelog status"
           mappings:
-            -
-              value: '0'
+            - value: "0"
               newvalue: Unknown
-            -
-              value: '1'
+            - value: "1"
               newvalue: Error
-            -
-              value: '2'
+            - value: "2"
               newvalue: Deferred
-            -
-              value: '3'
+            - value: "3"
               newvalue: Valid
-        -
-          uuid: 0f7886d295b94cc5ae694552b480ba73
-          name: 'Oracle archiver state'
+        - uuid: 0f7886d295b94cc5ae694552b480ba73
+          name: "Oracle archiver state"
           mappings:
-            -
-              value: '0'
+            - value: "0"
               newvalue: Unknown
-            -
-              value: '1'
+            - value: "1"
               newvalue: Stopped
-            -
-              value: '2'
+            - value: "2"
               newvalue: Started
-            -
-              value: '3'
+            - value: "3"
               newvalue: Failed
-        -
-          uuid: 486227635d9445f681a9af24192095ab
-          name: 'Oracle DB open status'
+        - uuid: 486227635d9445f681a9af24192095ab
+          name: "Oracle DB open status"
           mappings:
-            -
-              value: '0'
+            - value: "0"
               newvalue: Unknown
-            -
-              value: '1'
+            - value: "1"
               newvalue: Mounted
-            -
-              value: '2'
-              newvalue: 'Read Only'
-            -
-              value: '3'
+            - value: "2"
+              newvalue: "Read Only"
+            - value: "3"
               newvalue: Read-Write
-            -
-              value: '4'
-              newvalue: 'Read Only with Apply'
-        -
-          uuid: c9513549007d4f7ea9b48e795a7b1472
-          name: 'Oracle DB role'
+            - value: "4"
+              newvalue: "Read Only with Apply"
+        - uuid: c9513549007d4f7ea9b48e795a7b1472
+          name: "Oracle DB role"
           mappings:
-            -
-              value: '0'
+            - value: "0"
               newvalue: Unknown
-            -
-              value: '1'
-              newvalue: 'Snapshot standby'
-            -
-              value: '2'
-              newvalue: 'Logical standby'
-            -
-              value: '3'
-              newvalue: 'Physical standby'
-            -
-              value: '4'
+            - value: "1"
+              newvalue: "Snapshot standby"
+            - value: "2"
+              newvalue: "Logical standby"
+            - value: "3"
+              newvalue: "Physical standby"
+            - value: "4"
               newvalue: Primary
-            -
-              value: '5'
-              newvalue: 'Far sync'
-        -
-          uuid: ecb154ea6ec74a11a7edee4598534b1d
-          name: 'Oracle force log status'
+            - value: "5"
+              newvalue: "Far sync"
+        - uuid: ecb154ea6ec74a11a7edee4598534b1d
+          name: "Oracle force log status"
           mappings:
-            -
-              value: '0'
-              newvalue: 'No'
-            -
-              value: '1'
-              newvalue: 'Yes'
-        -
-          uuid: bbeac4a4c23647f79b57eb922b6f3e2d
-          name: 'Oracle instance role'
+            - value: "0"
+              newvalue: "No"
+            - value: "1"
+              newvalue: "Yes"
+        - uuid: bbeac4a4c23647f79b57eb922b6f3e2d
+          name: "Oracle instance role"
           mappings:
-            -
-              value: '0'
+            - value: "0"
               newvalue: Unknown
-            -
-              value: '1'
+            - value: "1"
               newvalue: Primary
-            -
-              value: '2'
+            - value: "2"
               newvalue: Secondary
-        -
-          uuid: d68bc122e1e9468ba4b8a0c728b61548
-          name: 'Oracle instance status'
+        - uuid: d68bc122e1e9468ba4b8a0c728b61548
+          name: "Oracle instance status"
           mappings:
-            -
-              value: '0'
+            - value: "0"
               newvalue: Unknown
-            -
-              value: '1'
+            - value: "1"
               newvalue: Started
-            -
-              value: '2'
+            - value: "2"
               newvalue: Mounted
-            -
-              value: '3'
+            - value: "3"
               newvalue: Open
-            -
-              value: '4'
-              newvalue: 'Open migrate'
-        -
-          uuid: deed822feabe494a9182962380f14f49
-          name: 'Oracle log mode'
+            - value: "4"
+              newvalue: "Open migrate"
+        - uuid: deed822feabe494a9182962380f14f49
+          name: "Oracle log mode"
           mappings:
-            -
-              value: '0'
+            - value: "0"
               newvalue: NOARCHIVELOG
-            -
-              value: '1'
+            - value: "1"
               newvalue: ARCHIVELOG
-            -
-              value: '2'
+            - value: "2"
               newvalue: MANUAL
-        -
-          uuid: 527c08c426f74217ac3c50cb96ba49d3
-          name: 'Oracle tablespace status'
+        - uuid: 527c08c426f74217ac3c50cb96ba49d3
+          name: "Oracle tablespace status"
           mappings:
-            -
-              value: '0'
+            - value: "0"
               newvalue: Unknown
-            -
-              value: '1'
+            - value: "1"
               newvalue: Online
-            -
-              value: '2'
+            - value: "2"
               newvalue: Offline
-            -
-              value: '3'
+            - value: "3"
               newvalue: Read-Only
-        -
-          uuid: b13754c73df74ea3b1f096abd1bdb727
-          name: 'Service state'
+        - uuid: b13754c73df74ea3b1f096abd1bdb727
+          name: "Service state"
           mappings:
-            -
-              value: '0'
+            - value: "0"
               newvalue: Down
-            -
-              value: '1'
+            - value: "1"
               newvalue: Up
   triggers:
-    -
-      uuid: 63be44f72480442f848c87159a07461c
-      expression: 'min(/Template DB Oracle by Goracle plugin/oracle.proc.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"],5m) * 100 / last(/Template DB Oracle by Goracle plugin/oracle.processes_limit) > {$ORACLE.PROCESSES.MAX.WARN}'
-      name: 'Oracle: Too many active processes (over {$ORACLE.PROCESSES.MAX.WARN}% for 5 min)'
+    - uuid: 63be44f72480442f848c87159a07461c
+      expression: 'min(/Template DB Oracle by Goracle plugin/goracle.proc.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"],5m) * 100 / last(/Template DB Oracle by Goracle plugin/oracle.processes_limit) > {$ORACLE.PROCESSES.MAX.WARN}'
+      name: "Oracle: Too many active processes (over {$ORACLE.PROCESSES.MAX.WARN}% for 5 min)"
       priority: WARNING
-      description: 'Active processes are using more than {$ORACLE.PROCESSES.MAX.WARN}% of the available number of processes.'
-    -
-      uuid: c8a2aa7479f0476fab31d60bee2a93a6
-      expression: 'min(/Template DB Oracle by Goracle plugin/oracle.session_count,5m) * 100 / last(/Template DB Oracle by Goracle plugin/oracle.session_limit) > {$ORACLE.SESSIONS.MAX.WARN}'
-      name: 'Oracle: Too many active sessions (over {$ORACLE.SESSIONS.MAX.WARN}% for 5 min)'
+      description: "Active processes are using more than {$ORACLE.PROCESSES.MAX.WARN}% of the available number of processes."
+    - uuid: c8a2aa7479f0476fab31d60bee2a93a6
+      expression: "min(/Template DB Oracle by Goracle plugin/oracle.session_count,5m) * 100 / last(/Template DB Oracle by Goracle plugin/oracle.session_limit) > {$ORACLE.SESSIONS.MAX.WARN}"
+      name: "Oracle: Too many active sessions (over {$ORACLE.SESSIONS.MAX.WARN}% for 5 min)"
       priority: WARNING
-      description: 'Active sessions are using more than {$ORACLE.SESSIONS.MAX.WARN}% of the available sessions.'
-    -
-      uuid: b18fb774eeff4a3f9bd8384e82fb9f76
-      expression: 'min(/Template DB Oracle by Goracle plugin/oracle.datafiles.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"],5m) * 100 / last(/Template DB Oracle by Goracle plugin/oracle.db_files_limit) > {$ORACLE.DB.FILE.MAX.WARN}'
-      name: 'Oracle: Too many database files (over {$ORACLE.DB.FILE.MAX.WARN}% for 5 min)'
+      description: "Active sessions are using more than {$ORACLE.SESSIONS.MAX.WARN}% of the available sessions."
+    - uuid: b18fb774eeff4a3f9bd8384e82fb9f76
+      expression: 'min(/Template DB Oracle by Goracle plugin/goracle.datafiles.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"],5m) * 100 / last(/Template DB Oracle by Goracle plugin/oracle.db_files_limit) > {$ORACLE.DB.FILE.MAX.WARN}'
+      name: "Oracle: Too many database files (over {$ORACLE.DB.FILE.MAX.WARN}% for 5 min)"
       priority: WARNING
-      description: 'Number of datafiles is higher than {$ORACLE.DB.FILE.MAX.WARN}% of the available datafile files limit.'
-    -
-      uuid: 9571491f22b346d4852daf6307582992
-      expression: 'min(/Template DB Oracle by Goracle plugin/oracle.total_pga_used,5m) * 100 / last(/Template DB Oracle by Goracle plugin/oracle.pga_target) > {$ORACLE.PGA.USE.MAX.WARN}'
-      name: 'Oracle: Total PGA inuse is too high (over {$ORACLE.PGA.USE.MAX.WARN}% for 5 min)'
+      description: "Number of datafiles is higher than {$ORACLE.DB.FILE.MAX.WARN}% of the available datafile files limit."
+    - uuid: 9571491f22b346d4852daf6307582992
+      expression: "min(/Template DB Oracle by Goracle plugin/oracle.total_pga_used,5m) * 100 / last(/Template DB Oracle by Goracle plugin/oracle.pga_target) > {$ORACLE.PGA.USE.MAX.WARN}"
+      name: "Oracle: Total PGA inuse is too high (over {$ORACLE.PGA.USE.MAX.WARN}% for 5 min)"
       priority: WARNING
-      description: 'Total PGA in use is more than {$ORACLE.PGA.USE.MAX.WARN}% of PGA_AGGREGATE_TARGET.'
+      description: "Total PGA in use is more than {$ORACLE.PGA.USE.MAX.WARN}% of PGA_AGGREGATE_TARGET."
   graphs:
-    -
-      uuid: bc6fc82bcb36467c874445bdec320df7
-      name: 'Oracle: Datafiles'
+    - uuid: bc6fc82bcb36467c874445bdec320df7
+      name: "Oracle: Datafiles"
       graph_items:
-        -
-          color: 1A7C11
+        - color: 1A7C11
           item:
-            host: 'Template DB Oracle by Goracle plugin'
-            key: 'oracle.datafiles.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-        -
-          sortorder: '1'
+            host: "Template DB Oracle by Goracle plugin"
+            key: 'goracle.datafiles.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
+        - sortorder: "1"
           color: 2774A4
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.db_files_limit
-    -
-      uuid: edee82c763124f41b43cf96c0edc687a
-      name: 'Oracle: PGA'
+    - uuid: edee82c763124f41b43cf96c0edc687a
+      name: "Oracle: PGA"
       graph_items:
-        -
-          color: 1A7C11
+        - color: 1A7C11
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.total_pga_used
-        -
-          sortorder: '1'
+        - sortorder: "1"
           color: 2774A4
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.pga_target
-        -
-          sortorder: '2'
+        - sortorder: "2"
           color: F63100
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.total_pga_allocated
-    -
-      uuid: 4fb8c3debfdf40cc9ef663af9cfa6d69
+    - uuid: 4fb8c3debfdf40cc9ef663af9cfa6d69
       name: 'Oracle: Physical Read\Write Rate'
       graph_items:
-        -
-          color: 1A7C11
+        - color: 1A7C11
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.physical_writes_rate
-        -
-          sortorder: '1'
+        - sortorder: "1"
           color: 2774A4
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.physical_reads_rate
-    -
-      uuid: cd933229cf584a37a89b087ae088db21
+    - uuid: cd933229cf584a37a89b087ae088db21
       name: 'Oracle: Physical Read\Write Rate, Bytes'
       graph_items:
-        -
-          color: 1A7C11
+        - color: 1A7C11
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.physical_write_bytes_rate
-        -
-          sortorder: '1'
+        - sortorder: "1"
           color: 2774A4
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.physical_read_bytes_rate
-    -
-      uuid: 70535f3eef7b4d5fbba0326844205846
-      name: 'Oracle: Processes'
+    - uuid: 70535f3eef7b4d5fbba0326844205846
+      name: "Oracle: Processes"
       graph_items:
-        -
-          color: 1A7C11
+        - color: 1A7C11
           item:
-            host: 'Template DB Oracle by Goracle plugin'
-            key: 'oracle.proc.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
-        -
-          sortorder: '1'
+            host: "Template DB Oracle by Goracle plugin"
+            key: 'goracle.proc.stats["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
+        - sortorder: "1"
           color: 2774A4
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.processes_limit
-    -
-      uuid: 818fdc3d4e6f48669a700219b4080de7
-      name: 'Oracle: Sessions'
+    - uuid: 818fdc3d4e6f48669a700219b4080de7
+      name: "Oracle: Sessions"
       graph_items:
-        -
-          color: 1A7C11
+        - color: 1A7C11
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.session_count
-        -
-          sortorder: '1'
+        - sortorder: "1"
           color: 2774A4
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.session_active_background
-        -
-          sortorder: '2'
+        - sortorder: "2"
           color: F63100
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.session_inactive_user
-        -
-          sortorder: '3'
+        - sortorder: "3"
           color: A54F10
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.session_active_user
-        -
-          sortorder: '4'
+        - sortorder: "4"
           color: FC6EA3
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.session_limit
-    -
-      uuid: 9bae41520cbb4022a65bd949288faa84
-      name: 'Oracle: SGA Memory Usage'
+    - uuid: 9bae41520cbb4022a65bd949288faa84
+      name: "Oracle: SGA Memory Usage"
       type: STACKED
       graph_items:
-        -
-          color: 1A7C11
+        - color: 1A7C11
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.sga_java_pool
-        -
-          sortorder: '1'
+        - sortorder: "1"
           color: 2774A4
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.sga_large_pool
-        -
-          sortorder: '2'
+        - sortorder: "2"
           color: F63100
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.sga_shared_pool
-        -
-          sortorder: '3'
+        - sortorder: "3"
           color: A54F10
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.sga_log_buffer
-        -
-          sortorder: '4'
+        - sortorder: "4"
           color: FC6EA3
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.sga_fixed
-        -
-          sortorder: '5'
+        - sortorder: "5"
           color: 6C59DC
           item:
-            host: 'Template DB Oracle by Goracle plugin'
+            host: "Template DB Oracle by Goracle plugin"
             key: oracle.sga_buffer_cache

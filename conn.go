@@ -33,12 +33,12 @@ import (
 	"sync"
 	"time"
 
-	"git.zabbix.com/ap/plugin-support/log"
 	"git.zabbix.com/ap/plugin-support/uri"
-	"git.zabbix.com/ap/plugin-support/zbxerr"
 
+	"git.zabbix.com/ap/plugin-support/log"
+	"git.zabbix.com/ap/plugin-support/zbxerr"
+	"github.com/godror/godror"
 	"github.com/omeid/go-yarn"
-	_ "github.com/sijms/go-ora/v2"
 )
 
 type OraClient interface {
@@ -52,27 +52,11 @@ type OraClient interface {
 type OraConn struct {
 	client         *sql.DB
 	callTimeout    time.Duration
+	version        godror.VersionInfo
 	lastTimeAccess time.Time
 	ctx            context.Context
 	queryStorage   *yarn.Yarn
 	username       string
-}
-
-type traceTagCtxKey struct{}
-
-// TraceTag holds tracing information for the session. It can be set on the session
-// with ContextWithTraceTag.
-type TraceTag struct {
-	// ClientIdentifier - specifies an end user based on the logon ID, such as HR.HR
-	ClientIdentifier string
-	// ClientInfo - client-specific info
-	ClientInfo string
-	// DbOp - database operation
-	DbOp string
-	// Module - specifies a functional block, such as Accounts Receivable or General Ledger, of an application
-	Module string
-	// Action - specifies an action, such as an INSERT or UPDATE operation, in a module
-	Action string
 }
 
 var errorQueryNotFound = "query %q not found"
@@ -215,32 +199,34 @@ func (c *ConnManager) create(uri uri.URI) (*OraConn, error) {
 		panic("connection already exists")
 	}
 
-	// ctx := godror.ContextWithTraceTag(
-	// 	context.Background(),
-	// 	godror.TraceTag{
-	// 		ClientInfo: "zbx_monitor",
-	// 		Module:     godror.DriverName,
-	// 	})
-
-	ctx := context.WithValue(
+	ctx := godror.ContextWithTraceTag(
 		context.Background(),
-		traceTagCtxKey{},
-		TraceTag{
+		godror.TraceTag{
 			ClientInfo: "zbx_monitor",
-			Module:     "go_ora",
-		},
-	)
+			Module:     godror.DriverName,
+		})
 
 	service, err := url.QueryUnescape(uri.GetParam("service"))
 	if err != nil {
 		return nil, err
 	}
 
-	connectString := fmt.Sprintf("oracle://%s:%s@%s:%s/%s",
-		uri.User(), uri.Password(), uri.Host(), uri.Port(), service)
+	connectString := fmt.Sprintf(`(DESCRIPTION=(ADDRESS=(PROTOCOL=tcp)(HOST=%s)(PORT=%s))`+
+		`(CONNECT_DATA=(SERVICE_NAME="%s"))(CONNECT_TIMEOUT=%d)(RETRY_COUNT=0))`,
+		uri.Host(), uri.Port(), service, c.connectTimeout/time.Second)
 
-	// client := sql.OpenDB(connector)
-	client, err := sql.Open("oracle", connectString)
+	connector := godror.NewConnector(godror.ConnectionParams{
+		StandaloneConnection: true,
+		CommonParams: godror.CommonParams{
+			Username:      uri.User(),
+			ConnectString: connectString,
+			Password:      godror.NewPassword(uri.Password()),
+		},
+	})
+
+	client := sql.OpenDB(connector)
+
+	serverVersion, err := godror.ServerVersion(ctx, client)
 	if err != nil {
 		return nil, err
 	}
@@ -248,6 +234,7 @@ func (c *ConnManager) create(uri uri.URI) (*OraConn, error) {
 	c.connections[uri] = &OraConn{
 		client:         client,
 		callTimeout:    c.callTimeout,
+		version:        serverVersion,
 		lastTimeAccess: time.Now(),
 		ctx:            ctx,
 		queryStorage:   &c.queryStorage,
@@ -284,7 +271,7 @@ func (c *ConnManager) GetConnection(uri uri.URI) (conn *OraConn, err error) {
 	}
 
 	if err != nil {
-		if oraErr, isOraErr := AsOraErr(err); isOraErr {
+		if oraErr, isOraErr := godror.AsOraErr(err); isOraErr {
 			err = zbxerr.ErrorConnectionFailed.Wrap(oraErr)
 		} else {
 			err = zbxerr.ErrorConnectionFailed.Wrap(err)
