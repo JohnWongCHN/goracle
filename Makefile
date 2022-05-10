@@ -1,28 +1,32 @@
 # List all supported dist, run below command
 #  go tool dist list
 
-BIN="bin"
+BINDIR="bin"
 BINARY_NAME=goracle
-PLATFORMS = windows/amd64 \
-			linux/amd64 \
 
-# loop in recipe is simpliy as shell script itself
-# use backslash to split long lines
-build: clean dep
+all: clean dep windows_amd64 linux_amd64
+
+windows_amd64:
 	@echo
-	@echo "** Build binary **"
+	@echo "** Build windows/amd64 binary **"
 	@echo
-	for platform in ${PLATFORMS}; \
-	do \
-	  IFS='/' read -r -a array <<< "$${platform}"; \
-	  GOOS=$${array[0]}; \
-	  GOARCH=$${array[1]}; \
-	  OUTPUT_NAME="${BIN}/${BINARY_NAME}-$${GOOS}-$${GOARCH}"; \
-	  if [ $${GOOS} = "windows" ]; then \
-	    OUTPUT_NAME="$${OUTPUT_NAME}.exe"; \
-	  fi; \
-	  GOARCH=$${GOARCH} GOOS=$${GOOS} go build -o $${OUTPUT_NAME} github.com/JohnWongCHN/goracle; \
-	done
+	CGO_ENABLED=1 \
+	GOOS=windows \
+	GOARCH=amd64 \
+	CC="zig cc -target x86_64-windows-gnu" \
+	CXX="zig c++ -target x86_64-windows-gnu" \
+	go build -o ${BINDIR}/goracle-windows-amd64 github.com/JohnWongCHN/goracle
+
+linux_amd64:
+	@echo
+	@echo "** Build linux/amd64 binary **"
+	@echo
+	CGO_ENABLED=1 \
+	GOOS=linux \
+	GOARCH=amd64 \
+	CC="zig cc -target x86_64-linux-gnu" \
+	CXX="zig c++ -target x86_64-linux-gnu" \
+	go build -o ${BINDIR}/goracle-linux-amd64 github.com/JohnWongCHN/goracle
 
 .PHONY : clean
 
@@ -34,14 +38,7 @@ clean:
 	@echo
 	go clean
 	@echo
-	-for platform in ${PLATFORMS}; \
-	do \
-	  filename=${BIN}/${BINARY_NAME}-$$(echo $$platform | sed -r 's/\//-/g'); \
-	  if [[ $${filename} == *"windows"* ]]; then \
-	    filename="$${filename}.exe"; \
-	  fi; \
-	  rm $${filename}; \
-	done
+	rm -f ${BINDIR}/*
 
 # install dependency packages
 dep:

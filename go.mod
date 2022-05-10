@@ -1,6 +1,6 @@
 module github.com/JohnWongCHN/goracle
 
-go 1.17
+go 1.18
 
 require (
 	git.zabbix.com/ap/plugin-support v0.0.2

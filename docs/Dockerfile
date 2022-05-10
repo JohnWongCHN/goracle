@@ -21,6 +21,13 @@ RUN /usr/bin/wget https://ziglang.org/download/0.9.1/zig-linux-x86_64-0.9.1.tar.
 RUN cd /opt && /usr/bin/tar -xf /opt/zig-linux-x86_64-0.9.1.tar.xz
 RUN /usr/bin/ln -s /opt/zig-linux-x86_64-0.9.1/zig /usr/sbin/zig
 
+# Install Go
+RUN cd /tmp && /usr/bin/wget https://go.dev/dl/go1.18.1.linux-amd64.tar.gz
+RUN rm -rf /usr/local/go && tar -C /usr/local -xzf /tmp/go1.18.1.linux-amd64.tar.gz
+RUN echo 'export PATH=$PATH:/usr/local/go/bin' >> /etc/profile
+RUN go env -w GOPROXY=https://goproxy.cn
+RUN rm -f /tmp/go1.18.1.linux-amd64.tar.gz
+
 USER huangqw
 # Uses some bundled plugins and installs some more from github
 RUN sh -c "$(wget -O- https://github.com/deluan/zsh-in-docker/releases/download/v1.1.2/zsh-in-docker.sh | sed -r 's/centos \| amzn/centos \| amzn \| almalinux/g')" -- \
