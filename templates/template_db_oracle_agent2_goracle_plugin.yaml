@@ -1,6 +1,6 @@
 zabbix_export:
   version: "6.0"
-  date: "2022-04-28T08:04:35Z"
+  date: "2022-07-01T01:52:25Z"
   groups:
     - uuid: 748ad4d098d447d492bb935c907f652f
       name: Templates/Databases
@@ -41,6 +41,20 @@ zabbix_export:
             - type: JSONPATH
               parameters:
                 - $.datafile_num
+          tags:
+            - tag: Application
+              value: Oracle
+        - uuid: 423131d6e2914d1d89054d94d180141c
+          name: "Oracle: Database segment size"
+          key: 'goracle.db.segment_size["{$ORACLE.CONNSTRING}","{$ORACLE.USER}","{$ORACLE.PASSWORD}","{$ORACLE.SERVICE}"]'
+          delay: 30m
+          history: 7d
+          units: B
+          description: "Current database segment size."
+          preprocessing:
+            - type: JSONPATH
+              parameters:
+                - $.segment_size
           tags:
             - tag: Application
               value: Oracle
@@ -1784,11 +1798,13 @@ zabbix_export:
                 - uuid: c20563c2d9d94c8f93b6f4a699311ee9
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_file_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.HIGH}'
                   name: "Oracle TBS '{#TABLESPACE}': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.HIGH}% for 5m)."
-                  priority: HIGH
+                  priority: WARNING
+                  description: "Tablespace usage -> 表空间已分配的数据文件的使用情况"
                 - uuid: e1fe50281aaf4ce09fa854d82129cd1c
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_file_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.WARN}'
                   name: "Oracle TBS '{#TABLESPACE}': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m)."
-                  priority: WARNING
+                  priority: INFO
+                  description: "Tablespace usage -> 表空间已分配的数据文件的使用情况"
                   dependencies:
                     - name: "Oracle TBS '{#TABLESPACE}': Tablespace usage is too high (over {$ORACLE.TBS.USED.PCT.MAX.HIGH}% for 5m)."
                       expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_file_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.HIGH}'
@@ -1815,6 +1831,7 @@ zabbix_export:
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.USED.PCT.MAX.WARN}'
                   name: "Oracle TBS '{#TABLESPACE}': Tablespace utilization is too high (over {$ORACLE.TBS.USED.PCT.MAX.WARN}% for 5m)."
                   priority: WARNING
+                  description: "Tablespace utilization -> 表空间自动扩展使用情况"
                   dependencies:
                     - name: "Oracle TBS '{#TABLESPACE}': Tablespace utilization is too high (over {$ORACLE.TBS.UTIL.PCT.MAX.HIGH}% for 5m)."
                       expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
@@ -1822,6 +1839,7 @@ zabbix_export:
                   expression: 'min(/Template DB Oracle by Goracle plugin/oracle.tbs_used_pct["{#TABLESPACE}"],5m)>{$ORACLE.TBS.UTIL.PCT.MAX.HIGH}'
                   name: "Oracle TBS '{#TABLESPACE}': Tablespace utilization is too high (over {$ORACLE.TBS.UTIL.PCT.MAX.HIGH}% for 5m)."
                   priority: HIGH
+                  description: "Tablespace utilization -> 表空间自动扩展使用情况"
           graph_prototypes:
             - uuid: b090c0ce65384dfd828df6b790975b32
               name: "Oracle TBS '{#TABLESPACE}': Tablespace '{#TABLESPACE}'"

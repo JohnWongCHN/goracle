@@ -56,6 +56,7 @@ const (
 	keyTablespaces            = "goracle.ts.stats"
 	keyTablespacesDiscovery   = "goracle.ts.discovery"
 	keyUser                   = "goracle.user.info"
+	keyDatabaseSegment        = "goracle.db.segment_size"
 )
 
 // handlerFunc defines an interface must be implemented by handlers.
@@ -111,6 +112,8 @@ func getHandlerFunc(key string) handlerFunc {
 		return tablespacesDiscoveryHandler
 	case keyUser:
 		return userHandler
+	case keyDatabaseSegment:
+		return databaseSegmentHandler
 
 	default:
 		return nil
@@ -210,6 +213,8 @@ var metrics = metric.MetricSet{
 		[]*metric.Param{paramURI, paramUsername, paramPassword, paramService,
 			metric.NewParam("Username", "Username for which the information is needed."),
 		}, false),
+	keyDatabaseSegment: metric.New("Returns database segment size.",
+		[]*metric.Param{paramURI, paramUsername, paramPassword, paramService}, false),
 }
 
 func init() {
