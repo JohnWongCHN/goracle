@@ -38,7 +38,7 @@ func databaseSegmentHandler(ctx context.Context, conn OraClient, params map[stri
 SELECT
 	sum(bytes) as "segment_size"
 FROM
-	V$DATAFILE
+	dba_segments
 	`
 
 	row, err := conn.QueryRow(ctx, _sql)
